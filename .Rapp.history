@@ -1,0 +1,87 @@
+image(volcano)
+volcano
+image(volcano)#
+volcano
+.package(True)
+.packages(True)
+.packages(TRUE)
+normalizePath('~')
+list.files('~', all.files = TRUE)
+file.edit('~/.Rprofile')
+file.edit('~/.Renviron')
+normalizePath('~')
+x = readline("Answer yes or no: ")#
+x
+ajsdi
+x = readline("Answer yes or no: ")
+x
+help(readLines)
+x <- readLines("default_damian_3/103.txt")
+x
+head(x)
+x[1]
+strsplit(x[1],",")
+a <-strsplit(x[1],",")
+a
+strsplit(a[1],":")
+strsplit(a[1],"\:")
+strsplit(a[1],"\\w")
+a[1]
+a[2]
+a[1][1]
+a[1][1][1]
+a[1,1]
+a[[1]]
+a[1[1]]
+a[[1]]
+a
+a[[1]]
+a[[1]][2]
+a[[1]][1]
+b<-a[[1]][1]
+b
+strsplit(b,"\\w")
+strsplit(b,"\\W")
+words <- strsplit(b,"\\W")
+words <- words[words!=""]
+word
+words
+words = words[words!=""]
+words
+b
+help(unlist)
+words=ublist(strsplit(b,"\\W"))
+words=unlist(strsplit(b,"\\W"))
+words
+words = words[words != ""]
+words
+words
+words = words[words != "" && words != "u"]
+words
+a
+x[1]
+json_x <- gsub("\'","\"",x[1])
+json_x
+json_x <- gsub("\'",""",x[1])
+;
+;
+exit
+s
+/n
+dasjio
+json_x <- gsub("\'",'"',x[1])
+json_x
+x[1]
+json_xy <- gsub("\'",'"',x[1])
+json_xy
+help(gsub)
+json_xy <- gsub("'",'"',x[1])
+json_xy
+x[1]
+c <- gsub("\'",'"',x[1])
+c
+c <- gsub("u\\","",c)
+c <- gsub("u\\\","",c)
+gsub("'",'"',x[1])
+x
+q()
