@@ -15,73 +15,83 @@ x
 ajsdi
 x = readline("Answer yes or no: ")
 x
-help(readLines)
-x <- readLines("default_damian_3/103.txt")
+x[1]
+raw_data <- readLines("default_damian_3/103.txt")
+x <- raw_data[1]
 x
-head(x)
-x[1]
-strsplit(x[1],",")
-a <-strsplit(x[1],",")
+gsub("\'",""",x)
+gsub("'","\"",x)
+gsub("'","",x)
+gsub("'"," ",x)
+gsub("'","" ",x)
+gsub("'",'\"',x)
+gsub("'",'"',x)
+gsub("'"," ",x)
+a<-gsub("'"," ",x)
 a
-strsplit(a[1],":")
-strsplit(a[1],"\:")
-strsplit(a[1],"\\w")
-a[1]
-a[2]
-a[1][1]
-a[1][1][1]
-a[1,1]
-a[[1]]
-a[1[1]]
-a[[1]]
-a
-a[[1]]
-a[[1]][2]
-a[[1]][1]
-b<-a[[1]][1]
+gsub(" u ","",a)
+b<-gsub(" u ","",a)
 b
-strsplit(b,"\\w")
-strsplit(b,"\\W")
-words <- strsplit(b,"\\W")
-words <- words[words!=""]
-word
-words
-words = words[words!=""]
-words
-b
-help(unlist)
-words=ublist(strsplit(b,"\\W"))
-words=unlist(strsplit(b,"\\W"))
-words
-words = words[words != ""]
-words
-words
-words = words[words != "" && words != "u"]
-words
+heisenberg <- read.csv(file="netflow/output/1",head=TRUE,sep=",")
+heisenberg[1]
+heisenberg[2]
+heisenberg[3]
+heisenberg[2]
+help(feature)
+heisenberg
+head(heisenberg)
+heisenberg[[2]]
+pairs <- factor(heisenberg$src_dst_instance_id)
+pairs
+sqrt(136)
+12*12
+pairs[pairs == "0d109b4d -> 71d1f41c"]
+as.integer(pairs)
+levels(pairs)
+levels(pairs)
+as.integer(pairs)
+pairs
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+#
+pairs <- factor(csv_data$src_dst_instance_id)#
+#
+levels(pairs)
+head(csv_data)
+csv_data$src_dst_instance_id
+csv_data[src_dst_instance_id]
+csv_data[[src_dst_instance_id]]
+csv_data[["src_dst_instance_id"]]
+csv_data["src_dst_instance_id"]
+sd_list <- csv_data["src_dst_instance_id"]
+head sd_list
+head(sd_list)
+help(to)
+as.character(sd_list)
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")
+head csv_data
+head(csv_data)
+src_ids <- csv_data$src_id
+src_ids
+levels(src_ids)
+dst_ids <- csv_data$dst_id
+levels(dst_ids)
+as.integer(dst_ids)
+as.integer(levels(dst_ids))
+levels(dst_ids)
+csv_data[dst_id != "dhcp123f"]
+help(data.frame)
+csv_data[1]
+csv_data[2]
+csv_data[3]
+csv_data[4]
+csv_data[3]
+csv_data$time_in_secs
+head(csv_data$time_in_secs)
+csv[1:10,]
+csv_data[1:10,]
+csv_data[1:20,]
+csv_data[1:12,]
+time_slot_csv <- csv_data[1:12,]
+time_slot_csv
+a = as.matrix(time_slot_csv)
 a
-x[1]
-json_x <- gsub("\'","\"",x[1])
-json_x
-json_x <- gsub("\'",""",x[1])
-;
-;
-exit
-s
-/n
-dasjio
-json_x <- gsub("\'",'"',x[1])
-json_x
-x[1]
-json_xy <- gsub("\'",'"',x[1])
-json_xy
-help(gsub)
-json_xy <- gsub("'",'"',x[1])
-json_xy
-x[1]
-c <- gsub("\'",'"',x[1])
-c
-c <- gsub("u\\","",c)
-c <- gsub("u\\\","",c)
-gsub("'",'"',x[1])
-x
-q()

@@ -94,11 +94,15 @@ output_filepath = os.path.join(output_dir, output_name)
 with open(output_filepath, 'wb') as f:
     writer = csv.writer(f)
     #header = ['src_instance_id', 'dst_instance_id'] + TIME_HEADERS + NETFLOW_HEADERS
-    header = ['src_dst_instance_id'] + TIME_HEADERS + NETFLOW_HEADERS
+
+    #header = ['src_dst_instance_id'] + TIME_HEADERS + NETFLOW_HEADERS
+    header = ['src_id'] + ['dst_id'] + TIME_HEADERS + NETFLOW_HEADERS
     writer.writerow(header)
     for feature_key in sorted_feature_dict.keys():
         (src_instance_id, dst_instance_id, time_stamp) = feature_key
         feature_vect = sorted_feature_dict[feature_key]
-        row = list([src_instance_id[0:8] + ' -> ' + dst_instance_id[0:8]] + feature_vect)
+        #row = list([src_instance_id[0:8] + ' -> ' + dst_instance_id[0:8]] + feature_vect)
+        row = list([src_instance_id[0:8]] + [dst_instance_id[0:8]] + feature_vect)
+        print row
         writer.writerow(row)
 f.close()
