@@ -1,0 +1,1 @@
+tshark -r univ1_pt1 -T fields -e ip.src -e ip.dst -e frame.len -e frame.time_relative -E header=y -E separator=, > ../univ1_pt1.csv
