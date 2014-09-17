@@ -50,14 +50,15 @@ for (time_stamp in levels(factor(matrix_csv$time_in_secs))){
 	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))
 	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one
 		print("******Entering next interval *********")
-		list_matrix <- list()
+		list_matrix <- NULL
 		#Now transfer each matrix as a list, so you get a list of lists - -
-		#each list is a n*n=361 numbers vector, represents all traffic for that timestamp
+		#list_matrix: each list is a n*n=361 numbers vector, represents all traffic for that timestamp
 		for(snap_matrix in matrix_seg_list){
 			print(snap_matrix)
 			snap_list <- unlist(as.list(snap_matrix))
 			print(snap_list)
-			list_matrix[[length(list_matrix)+1]] <- snap_list
+			list_matrix <- rbind(list_matrix,snap_list)
+			#list_matrix[[length(list_matrix)+1]] <- snap_list
 			print(list_matrix)
 		}
 		head(list_matrix)
