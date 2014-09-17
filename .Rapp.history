@@ -15,83 +15,999 @@ x
 ajsdi
 x = readline("Answer yes or no: ")
 x
-x[1]
-raw_data <- readLines("default_damian_3/103.txt")
-x <- raw_data[1]
-x
-gsub("\'",""",x)
-gsub("'","\"",x)
-gsub("'","",x)
-gsub("'"," ",x)
-gsub("'","" ",x)
-gsub("'",'\"',x)
-gsub("'",'"',x)
-gsub("'"," ",x)
-a<-gsub("'"," ",x)
+x<-1:dim(volcano)[1]#
+y<-1:dim(volcano)[2]
+library(gpl)#
+x<-1:dim(volcano)[1]#
+y<-1:dim(volcano)[2]#
+plot3d(x,y,volcano)
+library(gpl)#
+x<-1:dim(volcano)[1]#
+y<-1:dim(volcano)[2]#
+plot3d(x,y,volcano)
+help(plot3d)
+open3d()
+library(gpl)
+install.packages(gpl)
+install.packages("gpl")
+help(append)
+slot
+slot_matrix
+a <- matrix(3,3,3)
 a
-gsub(" u ","",a)
-b<-gsub(" u ","",a)
-b
-heisenberg <- read.csv(file="netflow/output/1",head=TRUE,sep=",")
-heisenberg[1]
-heisenberg[2]
-heisenberg[3]
-heisenberg[2]
-help(feature)
-heisenberg
-head(heisenberg)
-heisenberg[[2]]
-pairs <- factor(heisenberg$src_dst_instance_id)
-pairs
-sqrt(136)
-12*12
-pairs[pairs == "0d109b4d -> 71d1f41c"]
-as.integer(pairs)
-levels(pairs)
-levels(pairs)
-as.integer(pairs)
-pairs
+list <- c(a)
+list
+list <- list(a)
+list
+append(list,a)
+list <- list(a)
+length(list)
+list[length(list)+1] <- a
+list[length(list)+1] <- 1
+list
+list[4] <- a
+list <- list(a)
+list[[length(list)+1]] <- a
+list
 csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
 #
-pairs <- factor(csv_data$src_dst_instance_id)#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
 #
-levels(pairs)
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- 0#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print(matrix_seg_list)#
+		last_time <- time_stamp#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- 0#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print(matrix_seg_list)#
+		last_time <- time_stamp#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+matrix_seg_list
+print(matrix_seg_list)
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- 0#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print(matrix_seg_list)#
+		last_time <- time_stamp#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+last_time <- csv_data$time_in_secs[1]
+last_time
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print(matrix_seg_list)#
+		last_time <- time_stamp#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+csv_data$time_in_secs[1]
+csv_data$time_in_secs[1] + 30
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print(matrix_seg_list)#
+		last_time <- as.interger(time_stamp)#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print(matrix_seg_list)#
+		last_time <- as.interger(time_stamp)#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+help(as.integer)
+last_time = as.interger(time_stamp)
+as.integer(a)
+as.integer(2)
+time_stamp
+as.numeric(time_stamp)
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print(matrix_seg_list)#
+		last_time = as.numeric(time_stamp)#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+length(matrix_seg_list)
+head(matrix_seg_list)
+min(matrix_seg_list)
+m <- matrix(1:4,2,2)
+m
+unlist(m)
+help(unlist)
+l <- list(m)
+l <- list(m, m+10)
+l
+unlist(l)
+l
+unlist(m)
+help(tapply)
+help(split)
+dim(m)
+as.data.frame(m)
+as.list(as.data.frame(m))
+as.list(as.list(as.data.frame(m)))
+unlist(as.list(as.data.frame(m)))
+unlist(as.list(m))
+as.matrix(unlist(as.list(m)),2,2)
+list(unlist(as.list(m)),2,2)
+matrix(unlist(as.list(m)),2,2)
+matrix_seg_list
+matrix_seg_list[1]
+as.list(matrix_seg_list[1])
+unlist(as.list(matrix_seg_list[1]))
+unlist(as.list(matrix_seg_list[2]))
+sqrt(362)
+sqrt(361)
+snap_1 <- unlist(as.list(matrix_seg_list[2]))
+snap_1 <- unlist(as.list(matrix_seg_list[3]))
+snap_1 <- unlist(as.list(matrix_seg_list[2]))
+snap_2 <- unlist(as.list(matrix_seg_list[3]))
+list(snap_1,snap_2)
+list_matrix <- list()
+append(list_matrix,snap_1)
+list_matrix <- list()
+list_matrix[1] <- snap_1
+list_matrix[[1]] <- snap_1
+list_matrix
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 30#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		list_matrix <- list()#
+		#Now transfer each matrix as a list, so you get a list of lists - -#
+		for(snap_matrix in matrix_seg_list){#
+			snap_list <- unlist(as.list(matrix_seg_list[snap_matrix]))#
+			list_matrix[[length(list_matrix)+1]] <- snap_list#
+		}#
+		head(list_matrix)#
+		last_time = as.numeric(time_stamp)#
+		print("******Entering next interval *********")#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+list <- c(1:4)
+list
+for (i in list){print(list[1])}
+for (i in list){print(i)}
+for (i in list){print(lsit[1])}
+for (i in list){print(lsit[iu])}
+for (i in list){print(list[i])}
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 5#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		print(slot$src_key[i])#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print("******Entering next interval *********")#
+		list_matrix <- list()#
+		#Now transfer each matrix as a list, so you get a list of lists - -#
+		for(snap_matrix in matrix_seg_list){#
+			snap_list <- unlist(as.list(matrix_seg_list[snap_matrix]))#
+			list_matrix[[length(list_matrix)+1]] <- snap_list#
+			print(list_matrix)#
+		}#
+		head(list_matrix)#
+		last_time = as.numeric(time_stamp)#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 5#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print("******Entering next interval *********")#
+		list_matrix <- list()#
+		#Now transfer each matrix as a list, so you get a list of lists - -#
+		for(snap_matrix in matrix_seg_list){#
+			snap_list <- unlist(as.list(matrix_seg_list[snap_matrix]))#
+			list_matrix[[length(list_matrix)+1]] <- snap_list#
+			print(list_matrix)#
+		}#
+		head(list_matrix)#
+		last_time = as.numeric(time_stamp)#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 5#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print("******Entering next interval *********")#
+		list_matrix <- list()#
+		#Now transfer each matrix as a list, so you get a list of lists - -#
+		for(snap_matrix in matrix_seg_list){#
+			snap_list <- unlist(as.list(matrix_seg_list[snap_matrix]))#
+			print(snap_list)#
+			list_matrix[[length(list_matrix)+1]] <- snap_list#
+			print(list_matrix)#
+		}#
+		head(list_matrix)#
+		last_time = as.numeric(time_stamp)#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+matrix_seg_list
+snap_list <- unlist(as.list(matrix_seg_list[1]))
+snap_list
+for(snap_matrix in matrix_seg_list){#
+			print(snap_matrix)#
+			snap_list <- unlist(as.list(matrix_seg_list[snap_matrix]))#
+			print(snap_list)#
+			list_matrix[[length(list_matrix)+1]] <- snap_list#
+			print(list_matrix)#
+		}
+for(snap_matrix in matrix_seg_list){#
+			print(snap_matrix)#
+		}
+l <- 10:15
+l
+for (i in l){print(i)}
+for(snap_matrix in matrix_seg_list){#
+			print(snap_matrix)#
+			snap_list <- unlist(as.list(snap_matrix))#
+			print(snap_list)#
+			list_matrix[[length(list_matrix)+1]] <- snap_list#
+			print(list_matrix)#
+		}
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 5#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print("******Entering next interval *********")#
+		list_matrix <- list()#
+		#Now transfer each matrix as a list, so you get a list of lists - -#
+		for(snap_matrix in matrix_seg_list){#
+			print(snap_matrix)#
+			snap_list <- unlist(as.list(snap_matrix))#
+			print(snap_list)#
+			list_matrix[[length(list_matrix)+1]] <- snap_list#
+			print(list_matrix)#
+		}#
+		head(list_matrix)#
+		last_time = as.numeric(time_stamp)#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+csv_data <- read.csv(file="traces/univ1_pt1.csv,head=TRUE,sep=",")
+csv_data <- read.csv(file="traces/univ1_pt1.csv“,head=TRUE,sep=",")
+csv_data <- read.csv(file="traces/univ1_pt1.csv",head=TRUE,sep=",")
+csv_data <- read.csv(file="traces/univ1_pt1.csv",head=TRUE,sep=",")
 head(csv_data)
-csv_data$src_dst_instance_id
-csv_data[src_dst_instance_id]
-csv_data[[src_dst_instance_id]]
-csv_data[["src_dst_instance_id"]]
-csv_data["src_dst_instance_id"]
-sd_list <- csv_data["src_dst_instance_id"]
-head sd_list
-head(sd_list)
-help(to)
-as.character(sd_list)
-csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")
-head csv_data
+csv_data[1.]
+csv_data[1,]
+row.names(csv_data[1,])
+row.names(csv_data[2,])
+csv_data <- read.csv(file="traces/univ1_pt1.csv",head=TRUE,sep=",")
+csv_data <- read.csv(file="traces/univ1_pt1.csv",row.names=NULL,head=TRUE,sep=",")
 head(csv_data)
-src_ids <- csv_data$src_id
-src_ids
-levels(src_ids)
-dst_ids <- csv_data$dst_id
-levels(dst_ids)
-as.integer(dst_ids)
-as.integer(levels(dst_ids))
-levels(dst_ids)
-csv_data[dst_id != "dhcp123f"]
-help(data.frame)
-csv_data[1]
-csv_data[2]
-csv_data[3]
-csv_data[4]
-csv_data[3]
-csv_data$time_in_secs
-head(csv_data$time_in_secs)
-csv[1:10,]
-csv_data[1:10,]
-csv_data[1:20,]
-csv_data[1:12,]
-time_slot_csv <- csv_data[1:12,]
-time_slot_csv
-a = as.matrix(time_slot_csv)
+head(csv$frame.time)
+head(csv_data$frame.time)
+as.integer(head(csv_data$frame.time))
+csv_data <- read.csv(file="traces/univ1_pt1.csv",row.names=NULL,head=TRUE,sep=",")
+head(csv_data)
+source("/Users/eaglezpf/r/testr.r")
+help(cband)
+help(cbind)
+m<-cbind(1,1:7)
+m
+m<-rbind(1,1:7)
+m
+m <- cbind(m,2:8)
+m
+m[2,]
+m
 a
+a<-cbind(m)
+a
+a <-cbind(a,m)
+a
+a <-cbind(null,m)
+a <-cbind(NULL,m)
+a
+a<- NULL
+for(i in 1:3){}
+for(i in 1:3){a<-rbind(a,m)}
+a
+a< 1:100
+a<- 1:100
+hist(a)
+a
+a <- c(a,1:50)
+a
+hist(a)
+# Read from csv files of ceilometer, and process to generate matrix for time slots, then do statistical analysis#
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 5#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print("******Entering next interval *********")#
+		list_matrix <- NULL#
+		#Now transfer each matrix as a list, so you get a list of lists - -#
+		#list_matrix: each list is a n*n=361 numbers vector, represents all traffic for that timestamp#
+		for(snap_matrix in matrix_seg_list){#
+			print(snap_matrix)#
+			snap_list <- unlist(as.list(snap_matrix))#
+			print(snap_list)#
+			list_matrix <- rbind(list_matrix,snap_list)#
+			#list_matrix[[length(list_matrix)+1]] <- snap_list#
+		}#
+		head(list_matrix[,1])#
+		hist(list_matrix[,1])#
+		last_time = as.numeric(time_stamp)#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+list_matrix
+list_matrix[,1]
+list_matrix[,3]
+list_matrix[,5]
+list_matrix[,6]
+list_matrix[,344]
+# Read from csv files of ceilometer, and process to generate matrix for time slots, then do statistical analysis#
+csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")#
+src_ids <- csv_data$src_id#
+#
+#get number of nodes in the cluster#
+node_num <- max(length(levels(csv_data$src_id)),length(levels(csv_data$dst_id)))#
+max_flow <- max(csv_data$network.flow.bytes)#
+#generate matrix as node*node#
+x<-matrix(nrow=node_num,ncol=node_num)#
+#make a list for matrix snapshot#
+matrix_snap <- list(x)#
+#get a list of node ids#
+node_list <- levels(factor(c(levels(csv_data$src_id), levels(csv_data$dst_id))))#
+#form a src_list and a dst_list to merge#
+src_list <- data.frame(src_key=1:node_num,src_id=node_list)#
+dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)#
+#
+#After merge, matrix_csv is all data with right matrix key to form a matrix#
+matrix_csv <- merge(src_list,merge(dst_list,csv_data))#
+#order csv by time stamp:#
+matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]#
+#
+#matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)#
+#This is low in effeciency, but for now， who cares ~_~#
+#slot_matrix is the matrix for a certain second slot#
+#
+#time interval for each matrix slot#
+interval <- 5#
+#
+last_time <- csv_data$time_in_secs[1]#
+matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))#
+for (time_stamp in levels(factor(matrix_csv$time_in_secs))){#
+	cat(time_stamp)#
+	#slot is all the entries in csv with the current#
+	slot <- matrix_csv[matrix_csv$time_in_secs== time_stamp,]#
+	print(slot)#
+	slot_matrix <- matrix(0,nrow=node_num,ncol=node_num)#
+#
+	#Form a matrix of the same time_stamp#
+	for (i in 1:nrow(slot)){#
+		slot_matrix[slot$src_key[i],slot$dst_key[i]] = slot$network.flow.bytes[i]#
+#
+	}#
+	#print(slot_matrix)#
+	#persp(slot_matrix,expand=0.2,zlim=c(0,max_flow))#
+	if (time_stamp > last_time + interval ){ #exceeded last interval, going into next one#
+		print("******Entering next interval *********")#
+		list_matrix <- NULL#
+		#Now transfer each matrix as a list, so you get a list of lists - -#
+		#list_matrix: each list is a n*n=361 numbers vector, represents all traffic for that timestamp#
+		for(snap_matrix in matrix_seg_list){#
+			print(snap_matrix)#
+			snap_list <- unlist(as.list(snap_matrix))#
+			print(snap_list)#
+			list_matrix <- rbind(list_matrix,snap_list)#
+			#list_matrix[[length(list_matrix)+1]] <- snap_list#
+		}#
+		hist(list_matrix[,346])#
+		last_time = as.numeric(time_stamp)#
+		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list#
+	}#
+	else{#
+		matrix_seg_list[[length(matrix_seg_list)+1]] <- slot_matrix#
+	}#
+}
+help(hist)

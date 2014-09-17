@@ -29,7 +29,7 @@ matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]
 #slot_matrix is the matrix for a certain second slot
 
 #time interval for each matrix slot
-interval <- 5
+interval <- 30
 
 last_time <- csv_data$time_in_secs[1]
 matrix_seg_list <- list(matrix(0,nrow=node_num,ncol=node_num))
@@ -59,9 +59,8 @@ for (time_stamp in levels(factor(matrix_csv$time_in_secs))){
 			print(snap_list)
 			list_matrix <- rbind(list_matrix,snap_list)
 			#list_matrix[[length(list_matrix)+1]] <- snap_list
-			print(list_matrix)
 		}
-		head(list_matrix)
+		hist(list_matrix[,346])
 		last_time = as.numeric(time_stamp)
 		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list
 	}
