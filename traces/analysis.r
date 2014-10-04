@@ -39,14 +39,36 @@ library(data.table)
 #flow.record = data.table(csv_data[csv_data$ip.src=="XX" & csv_data$ip.dst=="XX",])
 flow_src <- data.table(csv_data[csv_data$ip.src=="244.3.160.239",])
 dst_list <- names(summary(flow_src$ip.dst))
-for(i in dst_list){
+time_gap <- 20
+for(i in dst_list[dst_list != "(Other)"]){
   print(i)
   flow_record <- flow_src[flow_src$ip.dst == i,]
-  flow_traffic <- flow.record[,list(summ=sum(frame.len)),by=frame.time_relative]
-  hist(flow_traffic$summ)
+  flow_record$frame.time_relative <- as.integer(flow_record$frame.time_relative)
+  #split the flow trace into several segments
   
+  range <- seq(min(flow_record$frame.time_relative),max(flow_record$frame.time_relative),time_gap)
+  flow_seg_list <- split(flow_record, cut(flow_record$frame.time_relative,range))
+
+  #For each segment flow, draw picture
+  attach(mtcars)
+  #par(mfrow=c(length(flow_seg_list),1))
+  par(mfcol=c(length(flow_seg_list),1), oma=c(1,1,0,0), mar=c(1,1,1,0), tcl=-0.1, mgp=c(0,0,0))
+  for(i in flow_seg_list){
+    print("******")
+    flow_traffic <- i[,list(summ=sum(frame.len)),by=frame.time_relative]
+    hist(flow_traffic$summ)
+    cat ("Press [enter] to continue")
+    line <- readline()
+  }
+  
+  #Get a list of flow_records
+  split_flow_list <- split(flow_record,flow_record$frame.time_relative)
+  flow_traffic <- flow_record[,list(summ=sum(frame.len)),by=frame.time_relative]
+  hist(flow_traffic$summ)
+  cat ("Press [enter] to continue")
+  line <- readline()
 }
-flow_traffic <- flow.record[,list(summ=sum(frame.len)),by=frame.time_relative]
+#flow_traffic <- flow.record[,list(summ=sum(frame.len)),by=frame.time_relative]
 
 
 
