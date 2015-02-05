@@ -1,0 +1,55 @@
+   Active: active (running) since Fri 2015-01-23 23:50:33 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tap27fbba25-6a in namespace of DHCP-network-0
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:500@DHCP-network-0
+Added 500 test DHCP ports to DHCP-network-0
+   Active: active (running) since Fri 2015-01-23 23:53:16 EST; 1min 0s ago
+neutron-server average CPU usage        = 15.9037037037 %
+neutron-server average memory usage     = 597547.0 kB
+neutron-dhcp-agent average CPU usage    = 10.6611111111 %
+neutron-dhcp-agent average memory usage = 406562.0 kB
+Average total system memory free        = 246049341.556 kB
+Average total system CPU idle %         = 98.7 %
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0458490848541 seconds.
+2 processes still running. Waited 5.08920097351 seconds.
+2 processes still running. Waited 10.1336889267 seconds.
+2 processes still running. Waited 15.1786789894 seconds.
+2 processes still running. Waited 20.2231988907 seconds.
+2 processes still running. Waited 25.2754340172 seconds.
+2 processes still running. Waited 30.319206953 seconds.
+2 processes still running. Waited 35.3656458855 seconds.
+2 processes still running. Waited 40.4074170589 seconds.
+2 processes still running. Waited 45.4551980495 seconds.
+2 processes still running. Waited 50.4983620644 seconds.
+2 processes still running. Waited 55.5414590836 seconds.
+2 processes still running. Waited 60.5845720768 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+856               552               848               573               1.98334               2.71584     DHCP-network-0.log
+
+Average time needed to receive DHCP IP  = 4.69918 seconds
+The CPU and memory usage numbers are saved in the file
+ dhcp_scale_cpu_memory_01232015_235416.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.065987 seconds
+Median time needed to receive DHCP IP = 2.948643 seconds
+Max time needed to receive DHCP IP    = 24.2721 seconds
+Total number of DHCPDISCOVER retries  = 856
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+

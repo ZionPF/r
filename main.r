@@ -60,7 +60,16 @@ for (time_stamp in levels(factor(matrix_csv$time_in_secs))){
 			list_matrix <- rbind(list_matrix,snap_list)
 			#list_matrix[[length(list_matrix)+1]] <- snap_list
 		}
-		hist(list_matrix[,346])
+		#hist(list_matrix[,346])
+    
+    #list_matrix 是这段时间中每一秒的matrix的list，这里matrix已经化为19*19长度的list了
+    #下面两个list是对这段时间的数据统计
+    mean_list <- apply(list_matrix, 2, function(x) mean(x[x!=0]))
+    percentile_list <- apply(list_matrix, 2, function(x) quantile(x[x!=0], c(.7)))
+		
+    percentile_list[is.na(percentile_list)] <- 0
+		mean_list[is.na(mean_list)] <- 0
+    
 		last_time = as.numeric(time_stamp)
 		matrix_seg_list <- list(slot_matrix) #Use the slot_matrix as the first one of the list
 	}

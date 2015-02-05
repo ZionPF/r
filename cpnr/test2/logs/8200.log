@@ -1,0 +1,297 @@
+   Active: active (running) since Sun 2015-01-25 00:20:33 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tapefb48593-d6 in namespace of DHCP-network-0
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:8200@DHCP-network-0
+Added 8200 test DHCP ports to DHCP-network-0
+   Active: active (running) since Sun 2015-01-25 00:36:31 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0474979877472 seconds.
+2 processes still running. Waited 5.09673690796 seconds.
+2 processes still running. Waited 10.1445248127 seconds.
+2 processes still running. Waited 15.1915988922 seconds.
+2 processes still running. Waited 20.2434589863 seconds.
+2 processes still running. Waited 25.2976059914 seconds.
+2 processes still running. Waited 30.3442587852 seconds.
+2 processes still running. Waited 35.3975009918 seconds.
+2 processes still running. Waited 40.450086832 seconds.
+2 processes still running. Waited 45.5029959679 seconds.
+2 processes still running. Waited 50.5535478592 seconds.
+2 processes still running. Waited 55.6016488075 seconds.
+2 processes still running. Waited 60.6511499882 seconds.
+2 processes still running. Waited 65.6970357895 seconds.
+2 processes still running. Waited 70.7466628551 seconds.
+2 processes still running. Waited 75.7942609787 seconds.
+2 processes still running. Waited 80.8474009037 seconds.
+2 processes still running. Waited 85.893475771 seconds.
+2 processes still running. Waited 90.9458479881 seconds.
+2 processes still running. Waited 95.9954988956 seconds.
+2 processes still running. Waited 101.040885925 seconds.
+2 processes still running. Waited 106.086098909 seconds.
+2 processes still running. Waited 111.134248972 seconds.
+2 processes still running. Waited 116.180627823 seconds.
+2 processes still running. Waited 121.227086782 seconds.
+2 processes still running. Waited 126.275373936 seconds.
+2 processes still running. Waited 131.323529005 seconds.
+2 processes still running. Waited 136.371025801 seconds.
+2 processes still running. Waited 141.420957804 seconds.
+2 processes still running. Waited 146.475148916 seconds.
+2 processes still running. Waited 151.526228905 seconds.
+2 processes still running. Waited 156.576299906 seconds.
+2 processes still running. Waited 161.61893487 seconds.
+2 processes still running. Waited 166.670624971 seconds.
+2 processes still running. Waited 171.716943979 seconds.
+2 processes still running. Waited 176.769896984 seconds.
+2 processes still running. Waited 181.819920778 seconds.
+2 processes still running. Waited 186.874538898 seconds.
+2 processes still running. Waited 191.923280954 seconds.
+2 processes still running. Waited 196.972728968 seconds.
+2 processes still running. Waited 202.02045989 seconds.
+2 processes still running. Waited 207.067926884 seconds.
+2 processes still running. Waited 212.117434978 seconds.
+2 processes still running. Waited 217.161194801 seconds.
+2 processes still running. Waited 222.21020484 seconds.
+2 processes still running. Waited 227.261634827 seconds.
+2 processes still running. Waited 232.308928967 seconds.
+2 processes still running. Waited 237.358289957 seconds.
+2 processes still running. Waited 242.410948992 seconds.
+2 processes still running. Waited 247.462981939 seconds.
+2 processes still running. Waited 252.513609886 seconds.
+2 processes still running. Waited 257.561657906 seconds.
+2 processes still running. Waited 262.613088846 seconds.
+2 processes still running. Waited 267.659461975 seconds.
+2 processes still running. Waited 272.707773924 seconds.
+2 processes still running. Waited 277.753658772 seconds.
+2 processes still running. Waited 282.805228949 seconds.
+2 processes still running. Waited 287.851551771 seconds.
+2 processes still running. Waited 292.903553963 seconds.
+2 processes still running. Waited 297.950093985 seconds.
+2 processes still running. Waited 302.99574399 seconds.
+2 processes still running. Waited 308.045275927 seconds.
+2 processes still running. Waited 313.09519577 seconds.
+2 processes still running. Waited 318.140681982 seconds.
+2 processes still running. Waited 323.187561989 seconds.
+2 processes still running. Waited 328.236605883 seconds.
+2 processes still running. Waited 333.287427902 seconds.
+2 processes still running. Waited 338.336942911 seconds.
+2 processes still running. Waited 343.386839867 seconds.
+2 processes still running. Waited 348.43895483 seconds.
+2 processes still running. Waited 353.484802008 seconds.
+2 processes still running. Waited 358.533111811 seconds.
+2 processes still running. Waited 363.582623959 seconds.
+2 processes still running. Waited 368.630017996 seconds.
+2 processes still running. Waited 373.681180954 seconds.
+2 processes still running. Waited 378.73089695 seconds.
+2 processes still running. Waited 383.781365871 seconds.
+2 processes still running. Waited 388.830103874 seconds.
+2 processes still running. Waited 393.877644777 seconds.
+2 processes still running. Waited 398.925816774 seconds.
+2 processes still running. Waited 403.971139908 seconds.
+2 processes still running. Waited 409.017342806 seconds.
+2 processes still running. Waited 414.063124895 seconds.
+2 processes still running. Waited 419.107511997 seconds.
+2 processes still running. Waited 424.14862895 seconds.
+2 processes still running. Waited 429.194956779 seconds.
+2 processes still running. Waited 434.242371798 seconds.
+2 processes still running. Waited 439.293143988 seconds.
+2 processes still running. Waited 444.343197823 seconds.
+2 processes still running. Waited 449.388148785 seconds.
+2 processes still running. Waited 454.440253973 seconds.
+2 processes still running. Waited 459.490319967 seconds.
+2 processes still running. Waited 464.54219079 seconds.
+2 processes still running. Waited 469.591265917 seconds.
+2 processes still running. Waited 474.641973972 seconds.
+2 processes still running. Waited 479.690187931 seconds.
+2 processes still running. Waited 484.744850874 seconds.
+2 processes still running. Waited 489.794001818 seconds.
+2 processes still running. Waited 494.843007803 seconds.
+2 processes still running. Waited 499.890708923 seconds.
+2 processes still running. Waited 504.938663006 seconds.
+2 processes still running. Waited 509.98452282 seconds.
+2 processes still running. Waited 515.036294937 seconds.
+2 processes still running. Waited 520.081568003 seconds.
+2 processes still running. Waited 525.128502846 seconds.
+2 processes still running. Waited 530.1752069 seconds.
+2 processes still running. Waited 535.221688986 seconds.
+2 processes still running. Waited 540.277899981 seconds.
+2 processes still running. Waited 545.324356794 seconds.
+2 processes still running. Waited 550.370060921 seconds.
+2 processes still running. Waited 555.417554855 seconds.
+2 processes still running. Waited 560.466256857 seconds.
+2 processes still running. Waited 565.513701916 seconds.
+2 processes still running. Waited 570.558220863 seconds.
+2 processes still running. Waited 575.610947847 seconds.
+2 processes still running. Waited 580.662483931 seconds.
+2 processes still running. Waited 585.710207939 seconds.
+2 processes still running. Waited 590.759563923 seconds.
+2 processes still running. Waited 595.807534933 seconds.
+2 processes still running. Waited 600.858393908 seconds.
+2 processes still running. Waited 605.90802598 seconds.
+2 processes still running. Waited 610.956882954 seconds.
+2 processes still running. Waited 616.008679867 seconds.
+2 processes still running. Waited 621.058927774 seconds.
+2 processes still running. Waited 626.108065844 seconds.
+2 processes still running. Waited 631.1664958 seconds.
+2 processes still running. Waited 636.217911005 seconds.
+2 processes still running. Waited 641.263167858 seconds.
+2 processes still running. Waited 646.311243773 seconds.
+2 processes still running. Waited 651.361700773 seconds.
+2 processes still running. Waited 656.41108799 seconds.
+2 processes still running. Waited 661.456026793 seconds.
+2 processes still running. Waited 666.503007889 seconds.
+2 processes still running. Waited 671.553870916 seconds.
+2 processes still running. Waited 676.602999926 seconds.
+2 processes still running. Waited 681.650838852 seconds.
+2 processes still running. Waited 686.698390007 seconds.
+2 processes still running. Waited 691.744669914 seconds.
+2 processes still running. Waited 696.791248798 seconds.
+2 processes still running. Waited 701.839609861 seconds.
+2 processes still running. Waited 706.891887903 seconds.
+2 processes still running. Waited 711.939986944 seconds.
+2 processes still running. Waited 716.991153955 seconds.
+2 processes still running. Waited 722.038011789 seconds.
+2 processes still running. Waited 727.084324837 seconds.
+2 processes still running. Waited 732.132891893 seconds.
+2 processes still running. Waited 737.177803993 seconds.
+2 processes still running. Waited 742.221236944 seconds.
+2 processes still running. Waited 747.268008947 seconds.
+2 processes still running. Waited 752.316726923 seconds.
+2 processes still running. Waited 757.367743969 seconds.
+2 processes still running. Waited 762.415428877 seconds.
+2 processes still running. Waited 767.464783907 seconds.
+2 processes still running. Waited 772.517314911 seconds.
+2 processes still running. Waited 777.56275177 seconds.
+2 processes still running. Waited 782.609478951 seconds.
+2 processes still running. Waited 787.657258987 seconds.
+2 processes still running. Waited 792.704033852 seconds.
+2 processes still running. Waited 797.751149893 seconds.
+2 processes still running. Waited 802.798782825 seconds.
+2 processes still running. Waited 807.848284006 seconds.
+2 processes still running. Waited 812.897328854 seconds.
+2 processes still running. Waited 817.947267771 seconds.
+2 processes still running. Waited 822.991599798 seconds.
+2 processes still running. Waited 828.038295984 seconds.
+2 processes still running. Waited 833.086509943 seconds.
+2 processes still running. Waited 838.131248951 seconds.
+2 processes still running. Waited 843.179847002 seconds.
+2 processes still running. Waited 848.228406906 seconds.
+2 processes still running. Waited 853.295063972 seconds.
+2 processes still running. Waited 858.344838858 seconds.
+2 processes still running. Waited 863.394090891 seconds.
+2 processes still running. Waited 868.443333864 seconds.
+2 processes still running. Waited 873.488126993 seconds.
+2 processes still running. Waited 878.532967806 seconds.
+2 processes still running. Waited 883.579685926 seconds.
+2 processes still running. Waited 888.626580954 seconds.
+2 processes still running. Waited 893.674856901 seconds.
+2 processes still running. Waited 898.722940922 seconds.
+2 processes still running. Waited 903.768392801 seconds.
+2 processes still running. Waited 908.817004919 seconds.
+2 processes still running. Waited 913.86075592 seconds.
+2 processes still running. Waited 918.908575773 seconds.
+2 processes still running. Waited 923.954688787 seconds.
+2 processes still running. Waited 928.999601841 seconds.
+2 processes still running. Waited 934.048266888 seconds.
+2 processes still running. Waited 939.098641872 seconds.
+2 processes still running. Waited 944.147053003 seconds.
+2 processes still running. Waited 949.198011875 seconds.
+2 processes still running. Waited 954.243177891 seconds.
+2 processes still running. Waited 959.290995836 seconds.
+2 processes still running. Waited 964.339007854 seconds.
+2 processes still running. Waited 969.385139942 seconds.
+2 processes still running. Waited 974.430150986 seconds.
+2 processes still running. Waited 979.477486849 seconds.
+2 processes still running. Waited 984.52953887 seconds.
+2 processes still running. Waited 989.580205917 seconds.
+2 processes still running. Waited 994.631225824 seconds.
+2 processes still running. Waited 999.679339886 seconds.
+2 processes still running. Waited 1004.72718477 seconds.
+2 processes still running. Waited 1009.7759459 seconds.
+2 processes still running. Waited 1014.8263669 seconds.
+2 processes still running. Waited 1019.872751 seconds.
+2 processes still running. Waited 1024.921175 seconds.
+2 processes still running. Waited 1029.97123885 seconds.
+2 processes still running. Waited 1035.01960278 seconds.
+2 processes still running. Waited 1040.0695169 seconds.
+2 processes still running. Waited 1045.11770082 seconds.
+2 processes still running. Waited 1050.16848183 seconds.
+2 processes still running. Waited 1055.21874499 seconds.
+2 processes still running. Waited 1060.26630783 seconds.
+2 processes still running. Waited 1065.31342483 seconds.
+2 processes still running. Waited 1070.36342692 seconds.
+2 processes still running. Waited 1075.41601491 seconds.
+2 processes still running. Waited 1080.46354985 seconds.
+2 processes still running. Waited 1085.51198792 seconds.
+2 processes still running. Waited 1090.56430387 seconds.
+2 processes still running. Waited 1095.61171699 seconds.
+2 processes still running. Waited 1100.65820289 seconds.
+2 processes still running. Waited 1105.70316887 seconds.
+2 processes still running. Waited 1110.75019884 seconds.
+2 processes still running. Waited 1115.79484081 seconds.
+2 processes still running. Waited 1120.84340191 seconds.
+2 processes still running. Waited 1125.88733482 seconds.
+2 processes still running. Waited 1130.93574095 seconds.
+2 processes still running. Waited 1135.98537278 seconds.
+2 processes still running. Waited 1141.03880382 seconds.
+2 processes still running. Waited 1146.084692 seconds.
+2 processes still running. Waited 1151.1298089 seconds.
+2 processes still running. Waited 1156.17731595 seconds.
+2 processes still running. Waited 1161.22713399 seconds.
+2 processes still running. Waited 1166.27512383 seconds.
+2 processes still running. Waited 1171.32945991 seconds.
+2 processes still running. Waited 1176.37610888 seconds.
+2 processes still running. Waited 1181.42417884 seconds.
+2 processes still running. Waited 1186.47042394 seconds.
+2 processes still running. Waited 1191.52015281 seconds.
+2 processes still running. Waited 1196.56847382 seconds.
+ 
+ERROR : All the processes did not end. 2 processes still running. Waited 20 minutes. Exiting...
+
+ Run 'ps aux | grep dhcp.py | grep -v grep'
+
+ Run 'sudo pkill -f ./dhcp.py' to kill all processes
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+   Active: active (running) since Tue 2015-01-27 19:51:02 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tapf123fe03-2e in namespace of DHCP-network-0
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:8200@DHCP-network-0
+Added 8200 test DHCP ports to DHCP-network-0
+   Active: active (running) since Tue 2015-01-27 20:07:56 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0512402057648 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+
+ ERROR 1 : DHCP-network-0.log has invalid data.
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 60 seconds........
+

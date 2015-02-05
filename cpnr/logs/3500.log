@@ -1,0 +1,113 @@
+   Active: active (running) since Sat 2015-01-24 05:50:09 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tapb6ee1916-28 in namespace of DHCP-network-0
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:3500@DHCP-network-0
+Added 3500 test DHCP ports to DHCP-network-0
+   Active: active (running) since Sat 2015-01-24 05:57:40 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0453019142151 seconds.
+2 processes still running. Waited 5.09111785889 seconds.
+2 processes still running. Waited 10.1346180439 seconds.
+2 processes still running. Waited 15.1826369762 seconds.
+2 processes still running. Waited 20.2287459373 seconds.
+2 processes still running. Waited 25.2760560513 seconds.
+2 processes still running. Waited 30.3218419552 seconds.
+2 processes still running. Waited 35.3704650402 seconds.
+2 processes still running. Waited 40.414880991 seconds.
+2 processes still running. Waited 45.4575278759 seconds.
+2 processes still running. Waited 50.50334692 seconds.
+2 processes still running. Waited 55.5457160473 seconds.
+2 processes still running. Waited 60.5934388638 seconds.
+2 processes still running. Waited 65.6396028996 seconds.
+2 processes still running. Waited 70.6880350113 seconds.
+2 processes still running. Waited 75.7343578339 seconds.
+2 processes still running. Waited 80.7851779461 seconds.
+2 processes still running. Waited 85.8332779408 seconds.
+2 processes still running. Waited 90.880012989 seconds.
+2 processes still running. Waited 95.9245319366 seconds.
+2 processes still running. Waited 100.97359705 seconds.
+2 processes still running. Waited 106.019929886 seconds.
+2 processes still running. Waited 111.068434 seconds.
+2 processes still running. Waited 116.11736989 seconds.
+2 processes still running. Waited 121.164269924 seconds.
+2 processes still running. Waited 126.210546017 seconds.
+2 processes still running. Waited 131.256803989 seconds.
+2 processes still running. Waited 136.3047719 seconds.
+2 processes still running. Waited 141.352617025 seconds.
+2 processes still running. Waited 146.400249958 seconds.
+2 processes still running. Waited 151.446151018 seconds.
+2 processes still running. Waited 156.494597912 seconds.
+2 processes still running. Waited 161.542098045 seconds.
+2 processes still running. Waited 166.590703964 seconds.
+2 processes still running. Waited 171.632664919 seconds.
+2 processes still running. Waited 176.67948699 seconds.
+2 processes still running. Waited 181.725910902 seconds.
+2 processes still running. Waited 186.768980026 seconds.
+2 processes still running. Waited 191.81414485 seconds.
+2 processes still running. Waited 196.863991022 seconds.
+2 processes still running. Waited 201.917650938 seconds.
+2 processes still running. Waited 206.965602875 seconds.
+2 processes still running. Waited 212.010772943 seconds.
+2 processes still running. Waited 217.059746027 seconds.
+2 processes still running. Waited 222.105613947 seconds.
+2 processes still running. Waited 227.152083874 seconds.
+2 processes still running. Waited 232.197052956 seconds.
+2 processes still running. Waited 237.242612839 seconds.
+2 processes still running. Waited 242.29417491 seconds.
+2 processes still running. Waited 247.339366913 seconds.
+2 processes still running. Waited 252.388326883 seconds.
+2 processes still running. Waited 257.431915045 seconds.
+2 processes still running. Waited 262.485096931 seconds.
+2 processes still running. Waited 267.531074047 seconds.
+2 processes still running. Waited 272.577776909 seconds.
+2 processes still running. Waited 277.621580839 seconds.
+2 processes still running. Waited 282.666908026 seconds.
+2 processes still running. Waited 287.709422827 seconds.
+2 processes still running. Waited 292.756997824 seconds.
+2 processes still running. Waited 297.804704905 seconds.
+2 processes still running. Waited 302.852205992 seconds.
+2 processes still running. Waited 307.900545835 seconds.
+2 processes still running. Waited 312.951411963 seconds.
+2 processes still running. Waited 317.999253988 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+7581               3501               7270               3503               3.71646               3.44315     DHCP-network-0.log
+
+Average time needed to receive DHCP IP  = 7.15961 seconds
+The CPU and memory usage numbers are saved in the file
+ dhcp_scale_cpu_memory_01242015_0neutron-server average CPU usage        = 41.0409090909 %
+neutron-server average memory usage     = 759106.0 kB
+neutron-dhcp-agent average CPU usage    = 81.0825757576 %
+neutron-dhcp-agent average memory usage = 453766.034091 kB
+Average total system memory free        = 243900740.803 kB
+Average total system CPU idle %         = 98.3 %
+55840.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.355584 seconds
+Median time needed to receive DHCP IP = 7.6315 seconds
+Max time needed to receive DHCP IP    = 28.20711 seconds
+Total number of DHCPDISCOVER retries  = 7581
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ DHCP network already exists.
+ # of DHCP networks = 1
+ # of DHCP ports per network = 8100
+ Run './dhcp_scale_wrapper.py <number_of_DHCP_ports> -delete'
+ Exiting...
+

@@ -1,0 +1,71 @@
+   Active: active (running) since Sat 2015-01-24 01:14:34 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tapafc1d6ea-02 in namespace of DHCP-network-0
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:1500@DHCP-network-0
+Added 1500 test DHCP ports to DHCP-network-0
+   Active: active (running) since Sat 2015-01-24 01:18:59 EST; 1min 0s ago
+neutron-server average CPU usage        = 29.1916666667 %
+neutron-server average memory usage     = 643596.0 kB
+neutron-dhcp-agent average CPU usage    = 67.0025 %
+neutron-dhcp-agent average memory usage = 420272.075 kB
+Average total system memory free        = 245569995.667 kB
+Average total system CPU idle %         = 98.6 %
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0436449050903 seconds.
+2 processes still running. Waited 5.09133696556 seconds.
+2 processes still running. Waited 10.1548779011 seconds.
+2 processes still running. Waited 15.2004668713 seconds.
+2 processes still running. Waited 20.2462668419 seconds.
+2 processes still running. Waited 25.2958538532 seconds.
+2 processes still running. Waited 30.3432729244 seconds.
+2 processes still running. Waited 35.387239933 seconds.
+2 processes still running. Waited 40.4335458279 seconds.
+2 processes still running. Waited 45.4812829494 seconds.
+2 processes still running. Waited 50.5266299248 seconds.
+2 processes still running. Waited 55.5730919838 seconds.
+2 processes still running. Waited 60.6201510429 seconds.
+2 processes still running. Waited 65.6649978161 seconds.
+2 processes still running. Waited 70.711550951 seconds.
+2 processes still running. Waited 75.7574288845 seconds.
+2 processes still running. Waited 80.8067450523 seconds.
+2 processes still running. Waited 85.8534798622 seconds.
+2 processes still running. Waited 90.8959150314 seconds.
+2 processes still running. Waited 95.941576004 seconds.
+2 processes still running. Waited 100.988502979 seconds.
+2 processes still running. Waited 106.034426928 seconds.
+2 processes still running. Waited 111.084233046 seconds.
+2 processes still running. Waited 116.132668018 seconds.
+2 processes still running. Waited 121.179478884 seconds.
+2 processes still running. Waited 126.228216887 seconds.
+2 processes still running. Waited 131.274163008 seconds.
+2 processes still running. Waited 136.320950031 seconds.
+2 processes still running. Waited 141.371577024 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+2852               1512               2727               1546               3.15166               3.02848     DHCP-network-0.log
+
+Average time needed to receive DHCP IP  = 6.18014 seconds
+The CPU and memory usage numbers are saved in the file
+ dhcp_scale_cpu_memory_01242015_011959.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.012467 seconds
+Median time needed to receive DHCP IP = 6.41781 seconds
+Max time needed to receive DHCP IP    = 23.0044 seconds
+Total number of DHCPDISCOVER retries  = 2852
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
