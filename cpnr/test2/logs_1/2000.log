@@ -1,0 +1,83 @@
+   Active: active (running) since Thu 2015-02-05 17:17:33 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tap61afcb38-79 in namespace of DHCP-network-0
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:2000@DHCP-network-0
+Added 2000 test DHCP ports to DHCP-network-0
+   Active: active (running) since Thu 2015-02-05 17:23:34 EST; 1min 0s ago
+neutron-server average CPU usage        = 30.5609467456 %
+neutron-server average memory usage     = 691973.0 kB
+neutron-dhcp-agent average CPU usage    = 71.749704142 %
+neutron-dhcp-agent average memory usage = 428559.08284 kB
+Average total system memory free        = 184348599.503 kB
+Average total system CPU idle %         = 97.8 %
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0482470989227 seconds.
+2 processes still running. Waited 5.10091018677 seconds.
+2 processes still running. Waited 10.1511890888 seconds.
+2 processes still running. Waited 15.2034420967 seconds.
+2 processes still running. Waited 20.2539741993 seconds.
+2 processes still running. Waited 25.3014822006 seconds.
+2 processes still running. Waited 30.3463652134 seconds.
+2 processes still running. Waited 35.3942701817 seconds.
+2 processes still running. Waited 40.4453451633 seconds.
+2 processes still running. Waited 45.4938681126 seconds.
+2 processes still running. Waited 50.5372581482 seconds.
+2 processes still running. Waited 55.5841569901 seconds.
+2 processes still running. Waited 60.6316990852 seconds.
+2 processes still running. Waited 65.6792809963 seconds.
+2 processes still running. Waited 70.7282390594 seconds.
+2 processes still running. Waited 75.8089311123 seconds.
+2 processes still running. Waited 80.8538432121 seconds.
+2 processes still running. Waited 85.9001281261 seconds.
+2 processes still running. Waited 90.9481561184 seconds.
+2 processes still running. Waited 95.9951372147 seconds.
+2 processes still running. Waited 101.042983055 seconds.
+2 processes still running. Waited 106.091246128 seconds.
+2 processes still running. Waited 111.147302151 seconds.
+2 processes still running. Waited 116.196624041 seconds.
+2 processes still running. Waited 121.246412039 seconds.
+2 processes still running. Waited 126.298253059 seconds.
+2 processes still running. Waited 131.346535206 seconds.
+2 processes still running. Waited 136.393820047 seconds.
+2 processes still running. Waited 141.4406991 seconds.
+2 processes still running. Waited 146.492038012 seconds.
+2 processes still running. Waited 151.540985107 seconds.
+2 processes still running. Waited 156.583052158 seconds.
+2 processes still running. Waited 161.629033089 seconds.
+2 processes still running. Waited 166.678080082 seconds.
+2 processes still running. Waited 171.725594997 seconds.
+2 processes still running. Waited 176.771848202 seconds.
+2 processes still running. Waited 181.817216158 seconds.
+2 processes still running. Waited 186.863243103 seconds.
+2 processes still running. Waited 191.913156986 seconds.
+2 processes still running. Waited 196.960741997 seconds.
+2 processes still running. Waited 202.008948088 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+6711               2043               5535               2074               38.1939               33.3366     DHCP-network-0.log
+
+Average time needed to receive DHCP IP  = 71.5305 seconds
+The CPU and memory usage numbers are saved in the file
+ dhcp_scale_cpu_memory_02052015_172434.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.152178 seconds
+Median time needed to receive DHCP IP = 73.62283 seconds
+Max time needed to receive DHCP IP    = 196.368813 seconds
+Total number of DHCPDISCOVER retries  = 6711
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 60 seconds........
+

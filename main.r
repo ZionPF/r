@@ -1,7 +1,7 @@
 # Read from csv files of ceilometer, and process to generate matrix for time slots, then do statistical analysis
 
 
-csv_data <- read.csv(file="netflow/output/1",head=TRUE,sep=",")
+csv_data <- read.csv(file="~/r/netflow/output/1",head=TRUE,sep=",")
 src_ids <- csv_data$src_id
 
 #get number of nodes in the cluster
@@ -23,6 +23,35 @@ dst_list <- data.frame(dst_key=1:node_num,dst_id=node_list)
 matrix_csv <- merge(src_list,merge(dst_list,csv_data))
 #order csv by time stamp:
 matrix_csv <- matrix_csv[order(matrix_csv$time_in_secs),]
+#Drop the original src/dst ID, just use number as ID
+matrix_csv <- id_matrix <- matrix_csv[c("src_key","dst_key","time_in_secs","network.flow.bytes")]
+
+#Gather the dataframe into per src/dst pair and remove duplicate meter entry
+
+flow_data <- ddply(matrix_csv,c("src_key","dst_key","time_in_secs"),summarise, rate=max(network.flow.bytes))
+
+#select a flow :
+
+src <- 7
+dst <- 6
+flow.entry <- subset(flow_data, src_key == src & dst_key == dst)
+plot(flow.entry$rate)
+
+#given the flow entry (time series), get hist for every 100s
+breaks <- c(0,75428904,144525535,5061188761)
+flow.distribution <- function(series){
+  flow.hist <- hist(series,breaks,plot = FALSE)
+  flow.hist$counts/sum(flow.hist$counts)
+}
+
+#split one flow entry into groups of 100 samples
+interval <- 10
+sequence.split <- function(sequence, interval){
+  chunks <- as.integer(length(sequence)/interval)
+  split(flow.entry$rate,rep(1:chunks,rep(interval,chunks)))
+}
+#for each segment, do hist, then form a matrix ,each column is a hist for a interval
+flow.stat <- sapply(sequence.split(flow.entry$rate, interval), flow.distribution)
 
 #matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)
 #This is low in effeciency, but for now， who cares ~_~

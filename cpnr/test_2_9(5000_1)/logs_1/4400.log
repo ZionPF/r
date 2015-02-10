@@ -1,0 +1,167 @@
+   Active: active (running) since Sat 2015-02-07 02:58:06 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+1415: tap47fa84fe-03: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:3e:6d:ff brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.3/16 brd 1.0.255.255 scope global tap47fa84fe-03
+       valid_lft forever preferred_lft forever
+    inet 169.254.169.254/16 brd 169.254.255.255 scope global tap47fa84fe-03
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe3e:6dff/64 scope link 
+       valid_lft forever preferred_lft forever
+1416: tape85c8d93-7b: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:90:e9:f8 brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.4/16 brd 1.0.255.255 scope global tape85c8d93-7b
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe90:e9f8/64 scope link tentative 
+       valid_lft forever preferred_lft forever
+c5558270-55e2-4a79-b750-1677d474475b
+    Bridge br-ex
+        Port "eth2"
+            Interface "eth2"
+        Port "eth2\nbr-ex"
+            Interface "eth2\nbr-ex"
+        Port br-ex
+            Interface br-ex
+                type: internal
+    Bridge "br-eth0"
+        Port "eth0"
+            Interface "eth0"
+        Port "phy-br-eth0"
+            Interface "phy-br-eth0"
+        Port "br-eth0"
+            Interface "br-eth0"
+                type: internal
+    Bridge br-int
+        fail_mode: secure
+        Port "tape85c8d93-7b"
+            Interface "tape85c8d93-7b"
+                type: internal
+        Port "int-br-eth0"
+            Interface "int-br-eth0"
+        Port "tap47fa84fe-03"
+            tag: 587
+            Interface "tap47fa84fe-03"
+                type: internal
+        Port br-int
+            Interface br-int
+                type: internal
+    ovs_version: "2.1.3"
+Added 2nd test tap interface tape85c8d93-7b in namespace of DHCP-network-0
+
+Checking if 2nd tap interface added by DeviceManager exists in the namespace
+
+sudo ip netns exec qdhcp-83bb3f68-e7ff-46fd-84d4-6f4724c3d129 ip a
+
+ovs-vsctl show
+
+
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:4400@DHCP-network-0
+Added 4400 test DHCP ports to DHCP-network-0
+   Active: active (running) since Sat 2015-02-07 03:08:09 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0486710071564 seconds.
+2 processes still running. Waited 5.09701681137 seconds.
+2 processes still running. Waited 10.1471118927 seconds.
+2 processes still running. Waited 15.1968898773 seconds.
+2 processes still running. Waited 20.2503027916 seconds.
+2 processes still running. Waited 25.3026349545 seconds.
+2 processes still running. Waited 30.3537068367 seconds.
+2 processes still running. Waited 35.4083678722 seconds.
+2 processes still running. Waited 40.4582560062 seconds.
+2 processes still running. Waited 45.5087490082 seconds.
+2 processes still running. Waited 50.5580339432 seconds.
+2 processes still running. Waited 55.6084928513 seconds.
+2 processes still running. Waited 60.6616117954 seconds.
+2 processes still running. Waited 65.7114839554 seconds.
+2 processes still running. Waited 70.7614479065 seconds.
+2 processes still running. Waited 75.8087248802 seconds.
+2 processes still running. Waited 80.8584158421 seconds.
+2 processes still running. Waited 85.9153590202 seconds.
+2 processes still running. Waited 90.9655427933 seconds.
+2 processes still running. Waited 96.0151219368 seconds.
+2 processes still running. Waited 101.065572977 seconds.
+2 processes still running. Waited 106.116398811 seconds.
+2 processes still running. Waited 111.16521883 seconds.
+2 processes still running. Waited 116.217706919 seconds.
+2 processes still running. Waited 121.270294905 seconds.
+2 processes still running. Waited 126.318696976 seconds.
+2 processes still running. Waited 131.368134975 seconds.
+2 processes still running. Waited 136.418434858 seconds.
+2 processes still running. Waited 141.46646595 seconds.
+2 processes still running. Waited 146.517288923 seconds.
+2 processes still running. Waited 151.569262981 seconds.
+2 processes still running. Waited 156.6198318 seconds.
+2 processes still running. Waited 161.6700418 seconds.
+2 processes still running. Waited 166.721313953 seconds.
+2 processes still running. Waited 171.775174856 seconds.
+2 processes still running. Waited 176.825284004 seconds.
+2 processes still running. Waited 181.875984907 seconds.
+2 processes still running. Waited 186.924273968 seconds.
+2 processes still running. Waited 191.981652975 seconds.
+2 processes still running. Waited 197.028486013 seconds.
+2 processes still running. Waited 202.077551842 seconds.
+2 processes still running. Waited 207.124341965 seconds.
+2 processes still running. Waited 212.175325871 seconds.
+2 processes still running. Waited 217.225227833 seconds.
+2 processes still running. Waited 222.276903868 seconds.
+2 processes still running. Waited 227.325348854 seconds.
+2 processes still running. Waited 232.380208969 seconds.
+2 processes still running. Waited 237.430280924 seconds.
+2 processes still running. Waited 242.480582952 seconds.
+2 processes still running. Waited 247.531898022 seconds.
+2 processes still running. Waited 252.580590963 seconds.
+2 processes still running. Waited 257.626066923 seconds.
+2 processes still running. Waited 262.676545858 seconds.
+2 processes still running. Waited 267.725986004 seconds.
+2 processes still running. Waited 272.773317814 seconds.
+2 processes still running. Waited 277.820113897 seconds.
+2 processes still running. Waited 282.867143869 seconds.
+2 processes still running. Waited 287.913985014 seconds.
+2 processes still running. Waited 292.969733953 seconds.
+2 processes still running. Waited 298.020807028 seconds.
+2 processes still running. Waited 303.067407846 seconds.
+2 processes still running. Waited 308.112564802 seconds.
+2 processes still running. Waited 313.155974865 seconds.
+2 processes still running. Waited 318.200034857 seconds.
+2 processes still running. Waited 323.249871969 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+20626               4553               15041               4573               71.03               50.8001     DHCP-network-0.log
+
+Average time needed to receive DHCP IP  = 121.8301 seconds
+The CPU and memory usaneutron-server average CPU usage        = 42.5396039604 %
+neutron-server average memory usage     = 845935.0 kB
+neutron-dhcp-agent average CPU usage    = 84.0 %
+neutron-dhcp-agent average memory usage = 472596.089109 kB
+Average total system memory free        = 180666775.168 kB
+Average total system CPU used %         = 12.4108910891 %
+ge numbers are saved in the file
+ dhcp_scale_cpu_memory_02072015_030909.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.140602 seconds
+Median time needed to receive DHCP IP = 119.1417 seconds
+Max time needed to receive DHCP IP    = 318.806 seconds
+Total number of DHCPDISCOVER retries  = 20626
+
+
+ Sleeping 10 seconds after creating networks........
+
+
+ Sleeping 10 seconds after DeviceManager........
+
+
+ Sleeping 60 seconds after adding DHCP test ports........
+

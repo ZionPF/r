@@ -42,8 +42,9 @@ for (file in filenames){
 	agent_cpu <- get_num(log[grep("neutron-dhcp-agent average CPU usage",log)])
 	agent_mem <- get_num(log[grep("neutron-dhcp-agent average memory usage",log)])
 	total_mem <- get_num(log[grep("Average total system memory free",log)])
-	total_cpu <- get_num(log[grep("Average total system CPU idle",log)])
+	total_cpu <- get_num(log[grep("Average total system CPU used ",log)])
 
+  print(total_cpu)
 	df <- data.frame(test_id,avg_time,min_time,med_time,max_time,retry_num,server_cpu,server_mem,agent_cpu,agent_mem,total_cpu,total_mem)
 	dataset <- rbind(dataset,df)
 	
@@ -51,16 +52,31 @@ for (file in filenames){
 
 # Sort the Dataset by test id
 dataset <- dataset[order(dataset$test_id) , ]
-small <- subset(dataset, test_id < 5100)
-
-p <- ggplot(data=small, aes(x = test_id,color=Variables)) + xlab("Port Number")
+small <- subset(dataset, test_id < 10000)
+write.csv(small, file="../test.csv")
+p <- ggplot(data=small, aes(x = test_id,color=Variables)) + xlab("Number of Ports")
 
 #Draw total cpu and mem
-p1 <- p + geom_point(aes(y=total_cpu),color="sienna") +
-  ylab("Idle CPU")
-p2 <- p + geom_point(aes(y=total_mem),color="slateblue4") +
-  ylab("Free Mem")
-grid.arrange(p1,p2,ncol=1)
+p.total.cpu <- p + geom_point(aes(y=total_cpu),color="sienna") +
+  ylab("CPU Used (%)") +
+  ggtitle("Total System Resource Usage")
+p.total.mem <- p + geom_point(aes(y=total_mem),color="slateblue4") +
+  ylab("Free Memory")
+grid.arrange(p.total.cpu,p.total.mem,ncol=1)
+
+#Draw CPU for neutron server and agent
+p.cpu <- p + geom_point(aes(y=server_cpu,color="Neutron Server")) +
+  geom_point(aes(y=agent_cpu,color="Neutron Agent")) +
+  ylab("CPU Used (%)") +
+  ggtitle("CPU and Memory Usage for Neutron Server/Agent")
+
+p.mem <- p + geom_point(aes(y=server_mem,color="Neutron Server")) +
+  geom_point(aes(y=agent_mem,color="Neutron Agent")) +
+  ylab("Memory Used")
+
+grid.arrange(p.cpu,p.mem,ncol=1)
+
+
 
 #Draw statistic for time
 p + geom_point(aes(y=min_time,colour="Min")) + 
@@ -71,5 +87,11 @@ p + geom_point(aes(y=min_time,colour="Min")) +
   geom_smooth(aes(y=max_time, col="Max")) + 
   geom_smooth(aes(y=min_time, col="Min")) +
   geom_smooth(aes(y=med_time, col="Median")) +
-  ylab("Time (s)")
+  ylab("DHCP ACK time (seconds)") +
+  ggtitle("DHCP Response Time")
 
+#Draw graph for DHCP Retries
+
+p + geom_point(aes(y=retry_num),color="slateblue4") +
+  ylab("DHCP Retries") +
+  ggtitle("DHCP Retries")

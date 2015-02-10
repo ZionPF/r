@@ -1,0 +1,85 @@
+   Active: active (running) since Thu 2015-02-05 17:44:15 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tap5b16f9af-07 in namespace of DHCP-network-0
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:2200@DHCP-network-0
+Added 2200 test DHCP ports to DHCP-network-0
+   Active: active (running) since Thu 2015-02-05 17:50:30 EST; 1min 0s ago
+neutron-server average CPU usage        = 31.5404494382 %
+neutron-server average memory usage     = 693175.898876 kB
+neutron-dhcp-agent average CPU usage    = 73.4561797753 %
+neutron-dhcp-agent average memory usage = 431713.0 kB
+Average total system memory free        = 184350105.079 kB
+Average total system CPU idle %         = 97.8 %
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0481839179993 seconds.
+2 processes still running. Waited 5.0991089344 seconds.
+2 processes still running. Waited 10.1488509178 seconds.
+2 processes still running. Waited 15.1954350471 seconds.
+2 processes still running. Waited 20.2595689297 seconds.
+2 processes still running. Waited 25.3066298962 seconds.
+2 processes still running. Waited 30.3539628983 seconds.
+2 processes still running. Waited 35.4026799202 seconds.
+2 processes still running. Waited 40.4451699257 seconds.
+2 processes still running. Waited 45.4902608395 seconds.
+2 processes still running. Waited 50.5347938538 seconds.
+2 processes still running. Waited 55.580411911 seconds.
+2 processes still running. Waited 60.6330049038 seconds.
+2 processes still running. Waited 65.6790628433 seconds.
+2 processes still running. Waited 70.725976944 seconds.
+2 processes still running. Waited 75.7736158371 seconds.
+2 processes still running. Waited 80.8214800358 seconds.
+2 processes still running. Waited 85.8676118851 seconds.
+2 processes still running. Waited 90.9118340015 seconds.
+2 processes still running. Waited 95.9614639282 seconds.
+2 processes still running. Waited 101.008436918 seconds.
+2 processes still running. Waited 106.05524087 seconds.
+2 processes still running. Waited 111.101495981 seconds.
+2 processes still running. Waited 116.147083044 seconds.
+2 processes still running. Waited 121.196279049 seconds.
+2 processes still running. Waited 126.260246038 seconds.
+2 processes still running. Waited 131.306133032 seconds.
+2 processes still running. Waited 136.351933956 seconds.
+2 processes still running. Waited 141.401869059 seconds.
+2 processes still running. Waited 146.447299957 seconds.
+2 processes still running. Waited 151.499483824 seconds.
+2 processes still running. Waited 156.554622889 seconds.
+2 processes still running. Waited 161.599786997 seconds.
+2 processes still running. Waited 166.643786907 seconds.
+2 processes still running. Waited 171.687520027 seconds.
+2 processes still running. Waited 176.732895851 seconds.
+2 processes still running. Waited 181.775518894 seconds.
+2 processes still running. Waited 186.817772865 seconds.
+2 processes still running. Waited 191.863297939 seconds.
+2 processes still running. Waited 196.908359051 seconds.
+2 processes still running. Waited 201.955585957 seconds.
+2 processes still running. Waited 206.999730825 seconds.
+2 processes still running. Waited 212.043746948 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+7829               2255               5713               2282               42.4129               30.8939     DHCP-network-0.log
+
+Average time needed to receive DHCP IP  = 73.3068 seconds
+The CPU and memory usage numbers are saved in the file
+ dhcp_scale_cpu_memory_02052015_175130.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.15538 seconds
+Median time needed to receive DHCP IP = 75.62346 seconds
+Max time needed to receive DHCP IP    = 203.7358 seconds
+Total number of DHCPDISCOVER retries  = 7829
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 10 seconds........
+
+
+ Sleeping 60 seconds........
+

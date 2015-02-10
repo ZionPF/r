@@ -42,11 +42,13 @@ dst_list <- names(summary(flow_src$ip.dst))
 time_gap <- 20
 for(i in dst_list[dst_list != "(Other)"]){
   print(i)
+  #flow_record is a flow, with each packet_length and timestamp:
   flow_record <- flow_src[flow_src$ip.dst == i,]
   flow_record$frame.time_relative <- as.integer(flow_record$frame.time_relative)
   #split the flow trace into several segments
   if(max(flow_record$frame.time_relative)-min(flow_record$frame.time_relative) > time_gap){
     range <- seq(min(flow_record$frame.time_relative),max(flow_record$frame.time_relative),time_gap)
+    #flow_seg_list is several lists cut from the flow record based on time gap
     flow_seg_list <- split(flow_record, cut(flow_record$frame.time_relative,range))
     mean_list <- numeric()
     median_list <- numeric()
@@ -56,8 +58,15 @@ for(i in dst_list[dst_list != "(Other)"]){
       #print(flow_traffic)
       mean_list <- c(mean_list,mean(flow_traffic$summ,na.rm=TRUE))
       median_list <- c(median_list,median(flow_traffic$summ,na.rm=TRUE))
-      ggplot(mean_list)
+      #ggplot(mean_list)
     }
+    
+    # Flow_traffic is a flow, with bytes number for every second
+    flow_traffic <- flow_record[,list(summ=sum(frame.len)),by=frame.time_relative]
+    
+    p <- ggplot(data=flow_traffic, aes(x = frame.time_relative)) 
+    p + geom_point(aes(y=summ),color="sienna")
+    
     print("******")
     print(mean_list)
     print(median_list)
