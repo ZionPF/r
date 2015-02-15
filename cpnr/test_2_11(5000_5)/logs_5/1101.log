@@ -1,0 +1,190 @@
+   Active: active (running) since Wed 2015-02-11 02:39:46 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tap425059bd-46 in namespace of DHCP-network-0
+
+Checking if 2nd tap interface added by DeviceManager exists in namespace
+
+sudo ip netns exec qdhcp-a59cebca-1b63-42d8-b474-d1525370987f ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+1676: tap12a5f368-22: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:b0:ce:be brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.3/16 brd 1.0.255.255 scope global tap12a5f368-22
+       valid_lft forever preferred_lft forever
+    inet 169.254.169.254/16 brd 169.254.255.255 scope global tap12a5f368-22
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:feb0:cebe/64 scope link 
+       valid_lft forever preferred_lft forever
+1677: tap425059bd-46: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:6a:15:7d brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.4/16 brd 1.0.255.255 scope global tap425059bd-46
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe6a:157d/64 scope link tentative 
+       valid_lft forever preferred_lft forever
+
+ovs-vsctl show
+c5558270-55e2-4a79-b750-1677d474475b
+    Bridge br-ex
+        Port "eth2"
+            Interface "eth2"
+        Port "eth2\nbr-ex"
+            Interface "eth2\nbr-ex"
+        Port br-ex
+            Interface br-ex
+                type: internal
+    Bridge "br-eth0"
+        Port "eth0"
+            Interface "eth0"
+        Port "phy-br-eth0"
+            Interface "phy-br-eth0"
+        Port "br-eth0"
+            Interface "br-eth0"
+                type: internal
+    Bridge br-int
+        fail_mode: secure
+        Port "tap12a5f368-22"
+            tag: 691
+            Interface "tap12a5f368-22"
+                type: internal
+        Port "tap425059bd-46"
+            Interface "tap425059bd-46"
+                type: internal
+        Port "int-br-eth0"
+            Interface "int-br-eth0"
+        Port br-int
+            Interface br-int
+                type: internal
+    ovs_version: "2.1.3"
+
+
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:1101@DHCP-network-0
+Added 1101 test DHCP ports to DHCP-network-0
+   Active: active (running) since Wed 2015-02-11 02:44:21 EST; 1min 0s ago
+
+Checking namespace qdhcp-a59cebca-1b63-42d8-b474-d1525370987f before starting test
+
+sudo ip netns exec qdhcp-a59cebca-1b63-42d8-b474-d1525370987f ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+1676: tap12a5f368-22: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:b0:ce:be brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.3/16 brd 1.0.255.255 scope global tap12a5f368-22
+       valid_lft forever preferred_lft forever
+    inet 169.254.169.254/16 brd 169.254.255.255 scope global tap12a5f368-22
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:feb0:cebe/64 scope link 
+       valid_lft forever preferred_lft forever
+1677: tap425059bd-46: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:6a:15:7d brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.4/16 brd 1.0.255.255 scope global tap425059bd-46
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe6a:157d/64 scope link 
+       valid_lft forever preferred_lft forever
+
+ovs-vsctl show
+c5558270-55e2-4a79-b750-1677d474475b
+    Bridge br-ex
+        Port "eth2"
+            Interface "eth2"
+        Port "eth2\nbr-ex"
+            Interface "eth2\nbr-ex"
+        Port br-ex
+            Interface br-ex
+                type: internal
+    Bridge "br-eth0"
+        Port "eth0"
+            Interface "eth0"
+        Port "phy-br-eth0"
+            Interface "phy-br-eth0"
+        Port "br-eth0"
+            Interface "br-eth0"
+                type: internal
+    Bridge br-int
+        fail_mode: secure
+        Port "tap12a5f368-22"
+            tag: 691
+            Interface "tap12a5f368-22"
+                type: internal
+        Port "tap425059bd-46"
+            tag: 691
+            Interface "tap425059bd-46"
+                type: internal
+        Port "int-br-eth0"
+            Interface "int-br-eth0"
+        Port br-int
+            Interface br-int
+                type: internal
+    ovs_version: "2.1.3"
+
+test_tap_interface = tap425059bd-46
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0490210056305 seconds.
+2 processes still running. Waited 5.09963297844 seconds.
+2 processes still running. Waited 10.1444048882 seconds.
+2 processes still running. Waited 15.1911530495 seconds.
+2 processes still running. Waited 20.237473011 seconds.
+2 processes still running. Waited 25.2874600887 seconds.
+2 processes still running. Waited 30.3350498676 seconds.
+2 processes still running. Waited 35.3798511028 seconds.
+2 processes still running. Waited 40.438190937 seconds.
+2 processes still running. Waited 45.4840939045 seconds.
+2 processes still running. Waited 50.5318870544 seconds.
+2 processes still running. Waited 55.5818738937 seconds.
+2 processes still running. Waited 60.6315469742 seconds.
+2 processes still running. Waited 65.6796030998 seconds.
+2 processes still running. Waited 70.7261989117 seconds.
+2 processes still running. Waited 75.7728540897 seconds.
+2 processes still running. Waited 80.8206059933 seconds.
+2 processes still running. Waited 85.8642849922 seconds.
+2 processes still running. Waited 90.9117538929 seconds.
+2 processes still running. Waited 95.9610919952 seconds.
+2 processes still running. Waited 101.011250973 seconds.
+2 processes still running. Waited 106.057012081 seconds.
+2 processes still running. Waited 111.103588104 seconds.
+2 processes still running. Waited 116.150611877 seconds.
+2 processes still running. Waited 121.196844101 seconds.
+2 processes still running. Waited 126.24434495 seconds.
+2 processes still running. Waited 131.290829897 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+2897               1188               2996               1153               23.6212               31.0236     DHCP-network-0.loneutron-server average CPU usage        = 22.3857142857 %
+neutron-server average memory usage     = 655138.0 kB
+neutron-dhcp-agent average CPU usage    = 41.7523809524 %
+neutron-dhcp-agent average memory usage = 415202.0 kB
+Average total system memory free        = 212149753.81 kB
+Average total system CPU used %         = 8.19285714286 %
+g
+
+Average time needed to receive DHCP IP  = 54.6448 seconds
+The CPU and memory usage numbers are saved in the file
+ dhcp_scale_cpu_memory_02112015_024521.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.142 seconds
+Median time needed to receive DHCP IP = 56.15821 seconds
+Max time needed to receive DHCP IP    = 131.5028 seconds
+Total number of DHCPDISCOVER retries  = 2897
+
+
+ Sleeping 10 seconds after creating networks........
+
+
+ Sleeping 10 seconds after DeviceManager........
+
+
+ Sleeping 60 seconds after adding DHCP test ports........
+

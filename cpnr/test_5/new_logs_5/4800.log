@@ -1,0 +1,232 @@
+   Active: active (running) since Sat 2015-02-14 07:42:09 EST; 1min 0s ago
+
+Waiting 60 seconds after restarting neutron-server
+systemctl status neutron-server.service | grep since
+  
+DHCP-network-0, DHCP-subnet-0, DHCP-port-0 created with 1.0.0.0/16
+Added 2nd test tap interface tapdb7519e3-ad in namespace of DHCP-network-0
+
+Checking if 2nd tap interface added by DeviceManager exists in namespace
+
+sudo ip netns exec qdhcp-69655894-f9b4-4f26-bf58-d4d0e178796f ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2258: tapc8b06c05-2c: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:9c:9a:cc brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.3/16 brd 1.0.255.255 scope global tapc8b06c05-2c
+       valid_lft forever preferred_lft forever
+    inet 169.254.169.254/16 brd 169.254.255.255 scope global tapc8b06c05-2c
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe9c:9acc/64 scope link 
+       valid_lft forever preferred_lft forever
+2259: tapdb7519e3-ad: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:0a:8f:cf brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.4/16 brd 1.0.255.255 scope global tapdb7519e3-ad
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe0a:8fcf/64 scope link tentative 
+       valid_lft forever preferred_lft forever
+
+ovs-vsctl show
+c5558270-55e2-4a79-b750-1677d474475b
+    Bridge br-ex
+        Port "eth2"
+            Interface "eth2"
+        Port "eth2\nbr-ex"
+            Interface "eth2\nbr-ex"
+        Port br-ex
+            Interface br-ex
+                type: internal
+    Bridge "br-eth0"
+        Port "eth0"
+            Interface "eth0"
+        Port "phy-br-eth0"
+            Interface "phy-br-eth0"
+        Port "br-eth0"
+            Interface "br-eth0"
+                type: internal
+    Bridge br-int
+        fail_mode: secure
+        Port "tapc8b06c05-2c"
+            tag: 891
+            Interface "tapc8b06c05-2c"
+                type: internal
+        Port "int-br-eth0"
+            Interface "int-br-eth0"
+        Port br-int
+            Interface br-int
+                type: internal
+        Port "tapdb7519e3-ad"
+            Interface "tapdb7519e3-ad"
+                type: internal
+    ovs_version: "2.1.3"
+
+
+python dhcp_entries.py -m de:ae:00:00:00:00@1.0.0.5:4800@DHCP-network-0
+Added 4800 test DHCP ports to DHCP-network-0
+   Active: active (running) since Sat 2015-02-14 07:52:48 EST; 1min 0s ago
+
+Checking namespace qdhcp-69655894-f9b4-4f26-bf58-d4d0e178796f before starting test
+
+sudo ip netns exec qdhcp-69655894-f9b4-4f26-bf58-d4d0e178796f ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2258: tapc8b06c05-2c: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:9c:9a:cc brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.3/16 brd 1.0.255.255 scope global tapc8b06c05-2c
+       valid_lft forever preferred_lft forever
+    inet 169.254.169.254/16 brd 169.254.255.255 scope global tapc8b06c05-2c
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe9c:9acc/64 scope link 
+       valid_lft forever preferred_lft forever
+2259: tapdb7519e3-ad: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether fa:16:3e:0a:8f:cf brd ff:ff:ff:ff:ff:ff
+    inet 1.0.0.4/16 brd 1.0.255.255 scope global tapdb7519e3-ad
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe0a:8fcf/64 scope link 
+       valid_lft forever preferred_lft forever
+
+ovs-vsctl show
+c5558270-55e2-4a79-b750-1677d474475b
+    Bridge br-ex
+        Port "eth2"
+            Interface "eth2"
+        Port "eth2\nbr-ex"
+            Interface "eth2\nbr-ex"
+        Port br-ex
+            Interface br-ex
+                type: internal
+    Bridge "br-eth0"
+        Port "eth0"
+            Interface "eth0"
+        Port "phy-br-eth0"
+            Interface "phy-br-eth0"
+        Port "br-eth0"
+            Interface "br-eth0"
+                type: internal
+    Bridge br-int
+        fail_mode: secure
+        Port "tapc8b06c05-2c"
+            tag: 891
+            Interface "tapc8b06c05-2c"
+                type: internal
+        Port "int-br-eth0"
+            Interface "int-br-eth0"
+        Port br-int
+            Interface br-int
+                type: internal
+        Port "tapdb7519e3-ad"
+            tag: 891
+            Interface "tapdb7519e3-ad"
+                type: internal
+    ovs_version: "2.1.3"
+
+test_tap_interface = tapdb7519e3-ad
+
+Waiting 60 seconds after restarting neutron-dhcp-agent.service...
+
+  
+1 processes still running. Waited 0.0487968921661 seconds.
+2 processes still running. Waited 5.10039186478 seconds.
+2 processes still running. Waited 10.1525299549 seconds.
+2 processes still running. Waited 15.2025778294 seconds.
+2 processes still running. Waited 20.2535820007 seconds.
+2 processes still running. Waited 25.3037660122 seconds.
+2 processes still running. Waited 30.3578159809 seconds.
+2 processes still running. Waited 35.4101598263 seconds.
+2 processes still running. Waited 40.4601209164 seconds.
+2 processes still running. Waited 45.5133559704 seconds.
+2 processes still running. Waited 50.5646598339 seconds.
+2 processes still running. Waited 55.6144378185 seconds.
+2 processes still running. Waited 60.6664328575 seconds.
+2 processes still running. Waited 65.7192578316 seconds.
+2 processes still running. Waited 70.7700870037 seconds.
+2 processes still running. Waited 75.8176579475 seconds.
+2 processes still running. Waited 80.8678510189 seconds.
+2 processes still running. Waited 85.9189758301 seconds.
+2 processes still running. Waited 90.9684028625 seconds.
+2 processes still running. Waited 96.0210418701 seconds.
+2 processes still running. Waited 101.07285285 seconds.
+2 processes still running. Waited 106.124267817 seconds.
+2 processes still running. Waited 111.175617933 seconds.
+2 processes still running. Waited 116.224216938 seconds.
+2 processes still running. Waited 121.290133953 seconds.
+2 processes still running. Waited 126.342025995 seconds.
+2 processes still running. Waited 131.391088963 seconds.
+2 processes still running. Waited 136.442456961 seconds.
+2 processes still running. Waited 141.494323969 seconds.
+2 processes still running. Waited 146.546252966 seconds.
+2 processes still running. Waited 151.610904932 seconds.
+2 processeneutron-server average CPU usage        = 43.9803738318 %
+neutron-server average memory usage     = 859056.0 kB
+neutron-dhcp-agent average CPU usage    = 84.9990654206 %
+neutron-dhcp-agent average memory usage = 479552.0 kB
+Average total system memory free        = 201739595.925 kB
+Average total system CPU used %         = 13.0859813084 %
+s still running. Waited 156.656766891 seconds.
+2 processes still running. Waited 161.705448866 seconds.
+2 processes still running. Waited 166.756283998 seconds.
+2 processes still running. Waited 171.808658838 seconds.
+2 processes still running. Waited 176.860808849 seconds.
+2 processes still running. Waited 181.913676977 seconds.
+2 processes still running. Waited 186.962599993 seconds.
+2 processes still running. Waited 192.011626005 seconds.
+2 processes still running. Waited 197.06535697 seconds.
+2 processes still running. Waited 202.112978935 seconds.
+2 processes still running. Waited 207.178406954 seconds.
+2 processes still running. Waited 212.230942965 seconds.
+2 processes still running. Waited 217.280398846 seconds.
+2 processes still running. Waited 222.330092907 seconds.
+2 processes still running. Waited 227.377061844 seconds.
+2 processes still running. Waited 232.427776814 seconds.
+2 processes still running. Waited 237.474849939 seconds.
+2 processes still running. Waited 242.524832964 seconds.
+2 processes still running. Waited 247.575183868 seconds.
+2 processes still running. Waited 252.630455017 seconds.
+2 processes still running. Waited 257.67920804 seconds.
+2 processes still running. Waited 262.726702929 seconds.
+2 processes still running. Waited 267.774145842 seconds.
+2 processes still running. Waited 272.821565866 seconds.
+2 processes still running. Waited 277.874313831 seconds.
+2 processes still running. Waited 282.920508862 seconds.
+2 processes still running. Waited 287.967625856 seconds.
+2 processes still running. Waited 293.030491829 seconds.
+2 processes still running. Waited 298.07879591 seconds.
+2 processes still running. Waited 303.131963968 seconds.
+2 processes still running. Waited 308.185963869 seconds.
+2 processes still running. Waited 313.235834837 seconds.
+2 processes still running. Waited 318.284545898 seconds.
+2 processes still running. Waited 323.334498882 seconds.
+2 processes still running. Waited 328.382506847 seconds.
+2 processes still running. Waited 333.433517933 seconds.
+2 processes still running. Waited 338.480020046 seconds.
+2 processes still running. Waited 343.528815985 seconds.
+Done!
+Discover Sent    Offer Received    Request Sent    Ack Received    Avg Offer Delay           Avg Ack Delay
+22898               5021               16728               5026               76.2136               52.058     DHCP-network-0.log
+
+Average time needed to receive DHCP IP  = 128.2716 seconds
+The CPU and memory usage numbers are saved in the file
+ dhcp_scale_cpu_memory_02142015_075349.log in the current directory
+
+Min time needed to receive DHCP IP    = 0.143744 seconds
+Median time needed to receive DHCP IP = 126.5113 seconds
+Max time needed to receive DHCP IP    = 330.538 seconds
+Total number of DHCPDISCOVER retries  = 22898
+
+
+ Sleeping 10 seconds after creating networks........
+
+
+ Sleeping 10 seconds after DeviceManager........
+
+
+ Sleeping 60 seconds after adding DHCP test ports........
+

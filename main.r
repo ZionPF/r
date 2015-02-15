@@ -1,5 +1,5 @@
 # Read from csv files of ceilometer, and process to generate matrix for time slots, then do statistical analysis
-
+library(forecast)
 
 csv_data <- read.csv(file="~/r/netflow/output/1",head=TRUE,sep=",")
 src_ids <- csv_data$src_id
@@ -45,7 +45,7 @@ flow.distribution <- function(series){
 }
 
 #split one flow entry into groups of 100 samples
-interval <- 10
+interval <- 50
 sequence.split <- function(sequence, interval){
   chunks <- as.integer(length(sequence)/interval)
   split(flow.entry$rate,rep(1:chunks,rep(interval,chunks)))
