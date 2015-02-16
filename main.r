@@ -35,10 +35,13 @@ flow_data <- ddply(matrix_csv,c("src_key","dst_key","time_in_secs"),summarise, r
 src <- 7
 dst <- 6
 flow.entry <- subset(flow_data, src_key == src & dst_key == dst)
+flow.entry$rate[is.na(flow.entry$rate)] <- 0
 plot(flow.entry$rate)
-
+#Take first 800 entry for training, others for checking, only series taken
+flow.train <- flow.entry[2:802,]$rate
+flow.future <- flow.entry[803:903,]$rate
 #given the flow entry (time series), get hist for every 100s
-breaks <- c(0,75428904,144525535,5061188761)
+breaks <- c(0,75428904,144525535,304525535,5061188761)
 flow.distribution <- function(series){
   flow.hist <- hist(series,breaks,plot = FALSE)
   flow.hist$counts/sum(flow.hist$counts)
@@ -48,10 +51,25 @@ flow.distribution <- function(series){
 interval <- 50
 sequence.split <- function(sequence, interval){
   chunks <- as.integer(length(sequence)/interval)
-  split(flow.entry$rate,rep(1:chunks,rep(interval,chunks)))
+  split(flow.train$rate,rep(1:chunks,rep(interval,chunks)))
 }
 #for each segment, do hist, then form a matrix ,each column is a hist for a interval
-flow.stat <- sapply(sequence.split(flow.entry$rate, interval), flow.distribution)
+flow.stat <- sapply(sequence.split(flow.train, interval), flow.distribution)
+
+
+predict_flow <- function(flow){
+  #Use ARIMA to predict the flow, return the 1 step prediction result
+  fit <- auto.arima(flow)
+  predict(fit,n.ahead=1)$pred[1]
+}
+
+simple.prediction <- apply(flow.stat, 1, predict_flow)
+flow.prediction <- simple.prediction/sum(simple.prediction)
+flow.distribution(flow.future[1:50,]$rate)
+
+series.prediction <- predict(auto.arima(flow.train$rate), n.ahead = interval)$pred
+
+
 
 #matrix_sequence <- data.frame(time_stamp=NULL,matrix=slot_matrix)
 #This is low in effeciency, but for now， who cares ~_~
