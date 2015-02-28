@@ -38,36 +38,79 @@ flow.entry <- subset(flow_data, src_key == src & dst_key == dst)
 flow.entry$rate[is.na(flow.entry$rate)] <- 0
 plot(flow.entry$rate)
 #Take first 800 entry for training, others for checking, only series taken
-flow.train <- flow.entry[2:802,]$rate
-flow.future <- flow.entry[803:903,]$rate
+flow.train <- flow.entry[2:701,]$rate
+flow.future <- flow.entry[701:802,]$rate
 #given the flow entry (time series), get hist for every 100s
 breaks <- c(0,75428904,144525535,304525535,5061188761)
-flow.distribution <- function(series){
+
+flow_distribution <- function(series){
   flow.hist <- hist(series,breaks,plot = FALSE)
   flow.hist$counts/sum(flow.hist$counts)
 }
 
-#split one flow entry into groups of 100 samples
-interval <- 50
-sequence.split <- function(sequence, interval){
+#split one flow entry into groups 
+interval <- 20
+sequence_split <- function(sequence, interval){
   chunks <- as.integer(length(sequence)/interval)
-  split(flow.train$rate,rep(1:chunks,rep(interval,chunks)))
+  split(sequence,rep(1:chunks,rep(interval,chunks)))
 }
-#for each segment, do hist, then form a matrix ,each column is a hist for a interval
-flow.stat <- sapply(sequence.split(flow.train, interval), flow.distribution)
 
-
-predict_flow <- function(flow){
-  #Use ARIMA to predict the flow, return the 1 step prediction result
+#Use ARIMA to predict the series, return the 1 step prediction result
+predict_arima <- function(flow){
   fit <- auto.arima(flow)
   predict(fit,n.ahead=1)$pred[1]
 }
 
-simple.prediction <- apply(flow.stat, 1, predict_flow)
-flow.prediction <- simple.prediction/sum(simple.prediction)
-flow.distribution(flow.future[1:50,]$rate)
+#Do prediction for all segment (matrix), then normalize to one distribution vector
+hist_prediction <- function(flow.stat){
+  simple.prediction <- apply(flow.stat, 1, predict_flow)
+  simple.prediction/sum(simple.prediction)
+}
 
-series.prediction <- predict(auto.arima(flow.train$rate), n.ahead = interval)$pred
+flow_evaluate <- function(interval,flow_entry=flow.entry){
+  flow_entry <- tail(flow_entry, n=-2)
+  sample.num <- nrow(flow_entry)
+  
+  train <- head(flow.entry, n=(sample.num-interval))$rate
+  future <- tail(flow.entry, n=(interval))$rate
+  #given the flow entry (time series), get hist for every 100s
+  breaks <- c(0,75428904,144525535,304525535,5061188761)
+  #for each segment, do hist, then form a matrix ,each column is a hist for a interval
+  flow.stat <- sapply(sequence_split(train, interval), flow_distribution)
+  
+  #Call prediction to give predicted PD vector
+  prediction.hist <- hist_prediction(flow.stat)
+  
+  #Compared is the real distribution
+  real <- flow_distribution(future[1:(1+interval)])
+
+  #Do normal arima for series and get histo
+  series.prediction <- predict(auto.arima(train), n.ahead = interval)$pred
+  prediction.series <- flow_distribution(series.prediction)
+  
+  error.hist <- sum((real-prediction.hist)^2)
+  error.series <- sum((real-prediction.series)^2)
+  rbind(error.hist, error.series)
+}
+
+#Set up a range for intervals, then for each interval, do evaluation
+eval_range <- seq(10, 100, 10)
+perf.prediction <- sapply(eval_range,flow_evaluate)
+
+#draw pics
+perf.prediction[2,1] <- 0.1835
+perf.prediction[2,3] <- 0.4912
+err_hist <- perf.prediction[1,]
+err_seri <- perf.prediction[2,]
+interval <- seq(100,1000,100)
+err_perf <- data.frame(x, err_hist, err_seri)
+
+p <- ggplot(data=err_perf, aes(x = interval,color="Prediction Methods"))
+p + geom_line(aes(y=err_hist,color="PDV based Prediction")) +
+  geom_line(aes(y=err_seri,color="ARIMA series Prediction")) +
+  
+  xlab("Prediction Interval") +
+  ylab("Accuracy")
 
 
 

@@ -36,10 +36,39 @@ empty_entries <- which(csv_data$ip.src==""| csv_data$ip.dst=="")
 csv_data <- csv_data[-empty_entries,]
 
 library(data.table)
+library(ggplot2)
+library(grid)
+library(gridExtra)
 #flow.record = data.table(csv_data[csv_data$ip.src=="XX" & csv_data$ip.dst=="XX",])
 flow_src <- data.table(csv_data[csv_data$ip.src=="244.3.160.239",])
 dst_list <- names(summary(flow_src$ip.dst))
 time_gap <- 20
+
+#let's plot one of the flows comparing with normal flow
+flow.plot <- function(dst){
+  flow.entry <- flow_src[flow_src$ip.dst == dst,]
+  flow.entry$frame.time_relative <- as.integer(flow.entry$frame.time_relative)
+  flow_traffic <- flow.entry[,list(summ=sum(frame.len)),by=frame.time_relative]
+  flow_traffic$summ <- flow_traffic$summ / 1000
+  #flow_traffic <- flow_traffic[1:25]
+  plot(flow_traffic$summ)
+  print(mean(flow_traffic$summ))
+  flow.norm <- rnorm(nrow(flow_traffic),mean=mean(flow_traffic$summ),sd=10)
+  time <- 1:nrow(flow_traffic)
+  flow.comp <- data.frame(time,flow_traffic$summ,flow.norm)
+  p <- ggplot(data=flow.comp, aes(x = time,color=Variables))
+  p + geom_line(aes(y=flow_traffic.summ,color="Noisy Flow")) +
+    geom_line(aes(y=flow.norm,color="Steady Flow")) +
+    xlab("Time (s)") +
+    ylab("Bandwidth Consumption (MB/s)")
+}
+
+flow.plot("244.3.224.127")
+
+lapply(dst_list[1:5],flow.plot)
+
+
+
 for(i in dst_list[dst_list != "(Other)"]){
   print(i)
   #flow_record is a flow, with each packet_length and timestamp:
