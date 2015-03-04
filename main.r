@@ -1,6 +1,7 @@
 # Read from csv files of ceilometer, and process to generate matrix for time slots, then do statistical analysis
 library(forecast)
-
+library(ggthemes)
+library(ggplot2)
 csv_data <- read.csv(file="~/r/netflow/output/1",head=TRUE,sep=",")
 src_ids <- csv_data$src_id
 
@@ -100,17 +101,23 @@ perf.prediction <- sapply(eval_range,flow_evaluate)
 #draw pics
 perf.prediction[2,1] <- 0.1835
 perf.prediction[2,3] <- 0.4912
-err_hist <- perf.prediction[1,]
-err_seri <- perf.prediction[2,]
+#err_hist <- perf.prediction[1,]
+#err_seri <- perf.prediction[2,]
 interval <- seq(100,1000,100)
-err_perf <- data.frame(x, err_hist, err_seri)
+err_hist <- data.frame(interval, err = perf.prediction[1,], Prediction = rep("PDV",ncol(perf.prediction)))
+err_seri <- data.frame(interval, err = perf.prediction[2,], Prediction = rep("ARIMA",ncol(perf.prediction)))
 
-p <- ggplot(data=err_perf, aes(x = interval,color="Prediction Methods"))
-p + geom_line(aes(y=err_hist,color="PDV based Prediction")) +
-  geom_line(aes(y=err_seri,color="ARIMA series Prediction")) +
-  
+err_perf <- rbind(err_hist, err_seri)
+
+p <- ggplot(data=err_perf, aes(x = interval,fill=Prediction))
+
+
+perf_err <- p + geom_bar(aes(y=err),stat="identity",position="dodge") +
   xlab("Prediction Interval") +
-  ylab("Accuracy")
+  ylab("Prediction Error")
+  #theme_economist()
+
+perf_err + theme_solarized()
 
 
 
