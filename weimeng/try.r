@@ -242,7 +242,7 @@ gif_weekday <- function(id){
               ylim(range(student_trace$latitude))
       )
     }
-  }, interval = 0.5, movie.name = paste("Weekdays_",toString(id),".gif",sep=""), ani.width = 600, ani.height = 600)
+  }, interval = 2, movie.name = paste("Weekdays_",toString(id),".gif",sep=""), ani.width = 600, ani.height = 600)
 }
 
 
@@ -260,11 +260,11 @@ gif_weekend <- function(id){
               ylim(range(student_trace$latitude))
       )
     }
-  }, interval = 0.5, movie.name = paste("Weekends_",toString(id),".gif",sep=""), ani.width = 600, ani.height = 600)
+  }, interval = 2, movie.name = paste("Weekends_",toString(id),".gif",sep=""), ani.width = 600, ani.height = 600)
 }
 
-gif_weekday(862950021406379)
-gif_weekend(862950021406379)
+gif_weekday(862950021418861)
+gif_weekend(862950021418861)
 
 
 
@@ -275,13 +275,13 @@ lapply(person_list$imei,movie_trace)
 
 
 
-
+#针对用户生成静态图
 
 student_1 <- valid_traces[valid_traces$imei ==862950021406379 & valid_traces$day==17,]
 student_trace <- ddply(student_1,c("longitude","latitude","day"),summarise, frequency=length(longitude), hour=min(hour))
 p <- ggplot(data=student_trace, aes(x = longitude)) 
 p + geom_point(aes(y=latitude, color=hour, size=frequency), position="dodge") +
-  scale_colour_gradientn(colours=rainbow(24, 0.6)) +
+  scale_colour_gradientn(colours=rainbow(24, 0.5)) +
   xlim(range(student_trace$longitude)) +
   ylim(range(student_trace$latitude)) +
   ggtitle(paste(toString(862950021406379)," Day: ", toString(17)))
