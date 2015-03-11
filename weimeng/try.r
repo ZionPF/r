@@ -277,8 +277,8 @@ gif_weekend <- function(id){
   }, interval = 2, movie.name = paste("Weekends_",toString(id),".gif",sep=""), ani.width = 600, ani.height = 600)
 }
 
-gif_weekday(357698861523702)
-gif_weekend(357698861523702)
+gif_weekday(357698861540383)
+gif_weekend(357698861540383)
 
 
 
