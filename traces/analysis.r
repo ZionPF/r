@@ -44,6 +44,17 @@ flow_src <- data.table(csv_data[csv_data$ip.src=="244.3.160.239",])
 dst_list <- names(summary(flow_src$ip.dst))
 time_gap <- 20
 
+
+traffic_sec <- csv_data
+
+traffic_sec$frame.time_relative <- as.integer(traffic_sec$frame.time_relative)
+
+traffic_rate <- ddply(csv_data,c("ip.src","ip.dst","frame.time_relative"),summarise, byte=sum(frame.len))
+
+
+src_traffic <- flow_src[,list(summ=sum(frame.len)),by=frame.time_relative]
+
+
 #let's plot one of the flows comparing with normal flow
 flow.plot <- function(dst){
   flow.entry <- flow_src[flow_src$ip.dst == dst,]
@@ -57,8 +68,8 @@ flow.plot <- function(dst){
   time <- 1:nrow(flow_traffic)
   flow.comp <- data.frame(time,flow_traffic$summ,flow.norm)
   p <- ggplot(data=flow.comp, aes(x = time,color=Variables))
-  p + geom_line(aes(y=flow_traffic.summ,color="Noisy Flow")) +
-    geom_line(aes(y=flow.norm,color="Steady Flow")) +
+  p + geom_point(aes(y=flow_traffic.summ,color="Noisy Flow")) +
+    #geom_line(aes(y=flow.norm,color="Steady Flow")) +
     xlab("Time (s)") +
     ylab("Bandwidth Consumption (MB/s)")
 }
@@ -66,6 +77,29 @@ flow.plot <- function(dst){
 flow.plot("244.3.224.127")
 
 lapply(dst_list[1:5],flow.plot)
+
+#Now given a flow, we would like to get it's histgram
+
+flow.plot <- function(dst){
+  flow.entry <- flow_src[flow_src$ip.dst == dst,]
+  flow.entry$frame.time_relative <- as.integer(flow.entry$frame.time_relative)
+  flow_traffic <- flow.entry[,list(summ=sum(frame.len)),by=frame.time_relative]
+  flow_traffic$summ <- flow_traffic$summ / 1000
+  #flow_traffic <- flow_traffic[1:25]
+  #plot(flow_traffic$summ)
+  print(mean(flow_traffic$summ))
+  flow.norm <- rnorm(nrow(flow_traffic),mean=mean(flow_traffic$summ),sd=10)
+  time <- 1:nrow(flow_traffic)
+  flow.comp <- data.frame(time,flow_traffic$summ,flow.norm)
+  hist(flow_traffic$summ)
+  p <- ggplot(data=flow.comp, aes(x = time,color=Variables))
+  p + geom_point(aes(y=flow_traffic.summ,color="Noisy Flow")) +
+    #geom_line(aes(y=flow.norm,color="Steady Flow")) +
+    xlab("Time (s)") +
+    ylab("Bandwidth Consumption (MB/s)")
+}
+
+
 
 
 

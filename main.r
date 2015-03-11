@@ -117,7 +117,7 @@ perf_err <- p + geom_bar(aes(y=err),stat="identity",position="dodge") +
   ylab("Prediction Error")
   #theme_economist()
 
-perf_err + theme_solarized()
+perf_err + theme_economist_white()
 
 
 
