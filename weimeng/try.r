@@ -124,7 +124,7 @@ s3d <- scatterplot3d(x = student_1$cl_lng[student_1$st$mday==3], y = student_1$c
 
 
 #For each user, we get a location center represents it's normal activity
-student_daytime <- student_detail[student_detail$st$wday>0 & student_detail$st$wday<6 & student_detail$st$hour>10 & student_detail$st$hour<12,]
+student_daytime <- student_detail[student_detail$st$wday>0 & student_detail$st$wday<6 & student_detail$st$hour>9 & student_detail$st$hour<14,]
 
 user_center <- function(imei){
   student_trace <- student_daytime[student_daytime$imei == imei,]
@@ -142,8 +142,18 @@ valid_feature <- student_feature_info[!is.na(student_feature_info$c_lng) & !is.n
 #得到529个 valid的学生条目，现对其进行nn分类学习
 studentdata <- valid_feature[,-1]
 
+p <- ggplot(data=studentdata, aes(x = c_lng)) 
+p + geom_point(aes(y=c_lat, color=school)) +
+  ggtitle("汇聚Feature后学生分布")
+
+#  scale_colour_gradientn(colours=rainbow(24, 0.5)) 
+  
+
+
 studentdata$school[studentdata$school=="商榻幼儿园"] <- "商榻小学"
 studentdata$school[studentdata$school=="淀山湖小学"] <- "淀山湖小学"
+studentdata$school[studentdata$school=="金泽中学"] <- "金泽小学"
+studentdata$school[studentdata$school=="金泽幼儿园"] <- "金泽小学"
 
 studentdata$school <- as.factor(studentdata$school)
 studentTrainData = sample(1:529,370)
@@ -157,6 +167,10 @@ nn_evaluate <- function(size){
   sum(prediction == studentdata[studentValData,]$school)/length(studentValData)
   
 }
+
+eval <- data.frame(predict=prediction, real=studentdata[studentValData,]$school)
+
+nn_evaluate(22)
 
 nn_result <- sapply(1:30, nn_evaluate)
 plot(nn_result)
@@ -263,8 +277,8 @@ gif_weekend <- function(id){
   }, interval = 2, movie.name = paste("Weekends_",toString(id),".gif",sep=""), ani.width = 600, ani.height = 600)
 }
 
-gif_weekday(862950021418861)
-gif_weekend(862950021418861)
+gif_weekday(357698861523702)
+gif_weekend(357698861523702)
 
 
 
