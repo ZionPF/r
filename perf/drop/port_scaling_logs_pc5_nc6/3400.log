@@ -1,0 +1,31 @@
+
+DHCP-network-0 and DHCP-subnet-0 already exist. Waiting for DHCP ports to be created....
+2015-05-07 04:00:20.610050 : 3387 ports found. 3400 ports expected
+2015-05-07 04:00:28.285850 : 3400 ports found. 3400 ports expected
+
+sudo ip netns exec testns-DHCP-network-0 /usr/local/sbin/perfdhcp -4 -b mac=fa:16:00:00:00:00 -r 3400 -R 3400 -p 120 -l tapd6d2c4f1-5c &> testns-DHCP-network-0_3400_05072015_040131.log &
+
+Waiting for perfdhcp in all test namespaces to complete....
+
+perfdhcp ended
+
+Deleting remaining churned networks, subnets and ports
+
+Total number of packets dropped = 295037
+Total number of packets sent = 345491
+Packet drop % = 85.3964357972 %
+Minimum time to receive DHCP IP address = 1.081 milliseconds
+Average time to receive DHCP IP address = 796.955 milliseconds
+Maximum time to receive DHCP IP address = 1045.838 milliseconds
+
+The CPU and memory usage numbers are saved in the file
+dhcp_scale_cpu_memory_05072015_040131.log in the current directory
+
+neutron-dhcp-agent average CPU usage    = 3.6 %
+neutron-dhcp-agent average memory usage = 543015.0 kB
+Average total system memory free        = 385842454.947 kB
+Average total system CPU used %         = 3.83157894737 %
+
+
+Waiting 60 seconds....
+

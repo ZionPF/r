@@ -1,0 +1,36 @@
+
+Waiting for DHCP network, subnet and ports to be created....
+2015-05-15 18:39:02.107496 : 62 ports found. 100 ports expected
+2015-05-15 18:39:07.558661 : 100 ports found. 100 ports expected
+Added test tap interface tapa397f6c6-46 (1.0.0.1) in namespace testns-DHCP-network-0
+
+sudo ip netns exec testns-DHCP-network-0 /usr/local/sbin/perfdhcp -4 -b mac=fa:16:00:00:00:00 -r 100 -R 100 -p 120 -l tapa397f6c6-46 &> testns-DHCP-network-0_100_05152015_184252.log &
+
+Waiting for perfdhcp in all test namespaces to complete....
+
+perfdhcp ended
+
+Deleting remaining churned networks, subnets and ports
+
+Total number of packets dropped = 0
+Total number of packets sent    = 23748
+Packet drop % = 0.0 %
+Minimum time to receive DHCP IP address = 0.914 milliseconds
+Average time to receive DHCP IP address = 1.506 milliseconds
+Maximum time to receive DHCP IP address = 38.525 milliseconds
+
+The CPU and memory usage numbers are saved in the file
+dhcp_scale_cpu_memory_05152015_184252.log in the current directory
+
+neutron-dhcp-agent average CPU usage    = 0.347368421053 %
+neutron-dhcp-agent average memory usage = 389044.0 kB
+Average total system memory free        = 389412253.263 kB
+Average total system CPU used %         = 0.494736842105 %
+
+
+Waiting 60 seconds after creating 100 ports....
+
+Waiting 120 seconds after restarting neutron-dhcp-agent.service....
+
+
+Waiting 30 seconds....

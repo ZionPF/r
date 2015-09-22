@@ -142,6 +142,11 @@ valid_feature <- student_feature_info[!is.na(student_feature_info$c_lng) & !is.n
 #得到529个 valid的学生条目，现对其进行nn分类学习
 studentdata <- valid_feature[,-1]
 
+#studentdata$school[studentdata$school=="商榻幼儿园"] <- "商榻小学"
+#studentdata$school[studentdata$school=="淀山湖小学"] <- "淀山湖小学"
+#studentdata$school[studentdata$school=="金泽中学"] <- "金泽小学"
+#studentdata$school[studentdata$school=="金泽幼儿园"] <- "金泽小学"
+
 p <- ggplot(data=studentdata, aes(x = c_lng)) 
 p + geom_point(aes(y=c_lat, color=school)) +
   ggtitle("汇聚Feature后学生分布")
@@ -150,10 +155,6 @@ p + geom_point(aes(y=c_lat, color=school)) +
   
 
 
-studentdata$school[studentdata$school=="商榻幼儿园"] <- "商榻小学"
-studentdata$school[studentdata$school=="淀山湖小学"] <- "淀山湖小学"
-studentdata$school[studentdata$school=="金泽中学"] <- "金泽小学"
-studentdata$school[studentdata$school=="金泽幼儿园"] <- "金泽小学"
 
 studentdata$school <- as.factor(studentdata$school)
 studentTrainData = sample(1:529,370)
@@ -238,8 +239,8 @@ movie_weekend <- function(id){
   }, interval = 0.5, htmlfile = paste("Weekend_",toString(id),".html",sep=""), ani.width = 600, ani.height = 600)
 }
 
-movie_weekend(862950021406379)
-movie_weekday(862950021406379)
+movie_weekend(357698861543569)
+movie_weekday(357698861543569)
 
 
 gif_weekday <- function(id){
@@ -277,8 +278,8 @@ gif_weekend <- function(id){
   }, interval = 2, movie.name = paste("Weekends_",toString(id),".gif",sep=""), ani.width = 600, ani.height = 600)
 }
 
-gif_weekday(357698861540383)
-gif_weekend(357698861540383)
+gif_weekday(357698861543569)
+gif_weekend(357698861543569)
 
 
 

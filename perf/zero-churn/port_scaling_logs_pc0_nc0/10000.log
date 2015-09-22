@@ -1,0 +1,9 @@
+Packet drop % = 100.0 %
+Minimum time to receive DHCP IP address = NA
+Average time to receive DHCP IP address = NA
+Maximum time to receive DHCP IP address = NA
+
+neutron-dhcp-agent average CPU usage    = 7.8 %
+neutron-dhcp-agent average memory usage = 642361.0 kB
+Average total system memory free        = 388814790.316 kB
+Average total system CPU used %         = 3.98157894737 %
