@@ -29,14 +29,14 @@ matrix_csv <- id_matrix <- matrix_csv[c("src_key","dst_key","time_in_secs","netw
 
 #Gather the dataframe into per src/dst pair and remove duplicate meter entry
 
-flow_data <- ddply(matrix_csv,c("src_key","dst_key","time_in_secs"),summarise, rate=max(network.flow.bytes))
+flow_data <- ddply(matrix_csv,c("src_key","dst_key","time_in_secs"),summarise, rate=max(network.flow.bytes,na.rm=TRUE))
 flow_data$rate[is.na(flow_data$rate)] <- 0
 
 
 #select a flow :
 
-src <- 7
-dst <- 6
+src <- 10
+dst <- 16
 flow.entry <- subset(flow_data, src_key == src & dst_key == dst)
 flow.entry$rate[is.na(flow.entry$rate)] <- 0
 plot(flow.entry$rate)

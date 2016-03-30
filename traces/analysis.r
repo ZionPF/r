@@ -60,18 +60,43 @@ flow.plot <- function(dst){
   flow.entry <- flow_src[flow_src$ip.dst == dst,]
   flow.entry$frame.time_relative <- as.integer(flow.entry$frame.time_relative)
   flow_traffic <- flow.entry[,list(summ=sum(frame.len)),by=frame.time_relative]
-  flow_traffic$summ <- flow_traffic$summ / 1000
+  flow_traffic$summ <- flow_traffic$summ / 100
+  flow_traffic$frame.time_relative <- flow_traffic$frame.time_relative
   #flow_traffic <- flow_traffic[1:25]
-  plot(flow_traffic$summ)
-  print(mean(flow_traffic$summ))
-  flow.norm <- rnorm(nrow(flow_traffic),mean=mean(flow_traffic$summ),sd=10)
-  time <- 1:nrow(flow_traffic)
+  #plot(flow_traffic$summ)
+  #print(mean(flow_traffic$summ))
+  flow.norm <- rnorm(nrow(flow_traffic),mean=mean(flow_traffic$summ),sd=30)
+  time <- 1:nrow(flow_traffic) * 10
   flow.comp <- data.frame(time,flow_traffic$summ,flow.norm)
-  p <- ggplot(data=flow.comp, aes(x = time,color=Variables))
-  p + geom_point(aes(y=flow_traffic.summ,color="Noisy Flow")) +
-    #geom_line(aes(y=flow.norm,color="Steady Flow")) +
+  
+
+  p <- ggplot(data=flow.comp, aes(x = time,color=Flows)) +
+    geom_line(aes(y=flow_traffic$summ,color="Noisy Flow")) +
+    geom_line(aes(y=flow.norm,color="Steady Flow")) +
     xlab("Time (s)") +
-    ylab("Bandwidth Consumption (MB/s)")
+    ylab("Bandwidth (MB/s)") +
+    scale_fill_discrete(name="Flows") +
+    theme(legend.justification=c(1,1), legend.position=c(1,1))
+  
+  #Draw PDF
+  flow.a <- data.frame(flow = "Noisy Flow", bandwidth = flow_traffic$summ)
+  flow.b <- data.frame(flow = "Steady Flow",bandwidth = flow.norm)
+  flow.pdf <- rbind(flow.a,flow.b)
+  flow.pdf$bandwidth <- as.integer(flow.pdf$bandwidth /200) * 200
+
+  
+  q <- ggplot(flow.pdf, aes(x=bandwidth, fill=flow)) +
+    #geom_histogram(alpha=.3,position="identity") +
+    geom_density(alpha=.3) +
+    xlab("Bandwidth Consumption (MB/s)") +
+    ylab("Probability Density") +
+    
+    scale_fill_discrete(name="Flows") +
+    theme(legend.justification=c(1,1), legend.position=c(1,1))
+  
+  grid.arrange(p,q, ncol=1, nrow =2)  
+  
+  
 }
 
 flow.plot("244.3.224.127")

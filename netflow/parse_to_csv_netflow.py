@@ -15,6 +15,8 @@ input_dir = 'input'
 output_dir = 'output'
 output_name = '1'
 
+data_dir='hadoop_data'
+
 NETFLOW_KEYS = ['network.flow.bytes']
 
 TIME_HEADERS = ['time_in_secs']
